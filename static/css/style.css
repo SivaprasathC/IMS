@@ -223,6 +223,34 @@ body {
 .sidebar-menu-button {
   display: none;
 }
+/* Side Nav CSS Ends */
+
+
+#add-item-form{
+  margin-left: 280px ; margin-top: 50px; width: 30rem;
+}
+
+/* Add Item CSS ends */
+
+.fixed-card {
+  width: 250px; /* Set a fixed width for all cards */
+  height: 350px; /* Set a fixed height for all cards */
+}
+
+.card-body {
+  overflow: hidden; /* Prevent content overflow */
+  text-align: center; /* Center-align text */
+}
+
+.card-img-top {
+  height: 150px; /* Set a fixed height for the image */
+  object-fit: cover; /* Ensure the image fits within the specified dimensions */
+}
+
+
+
+/* View Item CSS ends */
+
 
 /* Responsive media query code for small screens */
 @media (max-width: 768px) {
@@ -248,5 +276,8 @@ body {
 
   .sidebar.collapsed .sidebar-nav .primary-nav {
     transform: translateY(15px);
+  }
+  #add-item-form{
+    margin-left: 20px ; margin-top: 50px; width: 85%;
   }
 }

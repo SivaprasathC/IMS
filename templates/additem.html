@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="add_item" method="POST" enctype="multipart/form-data" class="mt-6" id="add-item-form">
+    {% csrf_token %}
+    {{message|safe}}
+    <h2>Add New Item</h2>
+    <div class="form-group mt-3">
+      <label for="serialno">Serial Number</label>
+      <input type="text" name="serialno" class="form-control" placeholder="Enter Serial Number" required>
+    </div>
+    <div class="form-group mt-3">
+      <label for="itemname">Item Name</label>
+      <input type="text" name="itemname" class="form-control" placeholder="Enter Item Name" required>
+    </div>
+    <div class="form-group mt-3">
+      <label for="itemdomain">Select Domain</label>
+      <select class="form-control" name="itemdomain" required>
+        <option>Domain 1</option>
+        <option>Domain 2</option>
+        <option>Domain 3</option>
+        <option>Domain 4</option>
+        <option>Domain 5</option>
+      </select>
+    </div>
+    <div data-mdb-input-init class="form-outline mt-3" style="width: 22rem;">
+      <label class="itemqty" for="typeNumber">Quantity</label>
+      <input min="0" name="itemqty" max="200" type="number" class="form-control" required />
+  </div>
+    <div class="custom-file mt-3">
+      <label class="itemimg" for="itemimg">Image of the Item</label>
+      <input name="itemimg" type="file" class="form-control" accept="image/*" id="customFile" />
+     </div>
+     <button class="btn btn-primary mt-2" type="submit">Add Item</button>
+  </form>
+{% endblock %}

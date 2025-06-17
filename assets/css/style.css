@@ -10,7 +10,7 @@
 
 body {
   min-height: 100vh;
-  background: linear-gradient(#F1F3FF, #CBD4FF);
+  background: linear-gradient(#ffffff, #ffffff);
 }
 
 .sidebar {
@@ -18,7 +18,7 @@ body {
   top: 0;
   left: 0;
   z-index: 10;
-  width: 270px;
+  width: 245px;
   height: 100vh;
   background: #1F2943;
   transition: all 0.4s ease;
@@ -76,7 +76,7 @@ body {
 }
 
 .sidebar-header .sidebar-toggler:hover {
-  background: #d9e1fd;
+  background: #ffffff;
 }
 
 .sidebar-nav .nav-list {
@@ -197,7 +197,7 @@ body {
 }
 
 .dropdown-menu .nav-item .nav-link {
-  color: #F1F4FF;
+  color: #ffffff;
   padding: 9px 15px;
 }
 
@@ -224,6 +224,29 @@ body {
   display: none;
 }
 
+#add-item-form{
+  margin-left: 280px ; margin-top: 50px; width: 30rem;
+}
+
+.fixed-card {
+  width: 250px; /* Set a fixed width for all cards */
+  height: 350px; /* Set a fixed height for all cards */
+}
+
+.card-body {
+  overflow: hidden; /* Prevent content overflow */
+  text-align: center; /* Center-align text */
+}
+
+.card-img-top {
+  height: 150px; /* Set a fixed height for the image */
+  object-fit: cover; /* Ensure the image fits within the specified dimensions */
+}
+
+
+
+
+
 /* Responsive media query code for small screens */
 @media (max-width: 768px) {
   .sidebar-menu-button {
@@ -233,7 +256,7 @@ body {
     height: 40px;
     width: 42px;
     display: flex;
-    color: #F1F4FF;
+    color: #ffffff;
     background: #1F2943;
   }
 
@@ -248,5 +271,8 @@ body {
 
   .sidebar.collapsed .sidebar-nav .primary-nav {
     transform: translateY(15px);
+  }
+  #add-item-form{
+    margin-left: 20px ; margin-top: 50px; width: 85%;
   }
 }
