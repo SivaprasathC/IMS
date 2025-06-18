@@ -41,12 +41,9 @@ def add_item(request):
             itemimg=image
         )
         item.save()
-        success_message_context ={
-            'message': '<div class="alert alert-success" role="alert">Item Added Successfully!</div>'
-        }
+        success_message_context ={'message': '<div class="alert alert-success" role="alert">Item Added Successfully!</div>'}
         return render(request, 'additem.html', success_message_context)
        
-
 def viewitems(request):
     search_query = request.GET.get('search', '')
     filter_domain = request.GET.get('domain', '')
@@ -69,11 +66,7 @@ def delete_item(request, id):
 
 def edit_item(request, id):
     item = Item.objects.get(id=id)
-    return render(request, 'edititem.html', {'item': item})
-
-def update_item(request, id):
     if request.method == 'POST':
-        item = Item.objects.get(id=id)
         item.serialno = request.POST.get('serialno')
         item.itemname = request.POST.get('itemname')
         item.itemdomain = request.POST.get('itemdomain')
@@ -89,7 +82,7 @@ def update_item(request, id):
             item.itemimg = image
         
         item.save()
-        success_message_context = {
-            'message': '<div class="alert alert-success" role="alert">Item Updated Successfully!</div>'
-        }
-        return render(request, 'edititem.html', success_message_context)
+        return redirect('viewitems')
+    else:
+        return render(request, 'edititem.html', {'item': item})
+
