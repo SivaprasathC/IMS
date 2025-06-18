@@ -83,7 +83,7 @@ body {
   list-style: none;
   display: flex;
   gap: 4px;
-  padding: 0 15px;
+  padding: 15px;
   flex-direction: column;
   transform: translateY(15px);
   transition: 0.4s ease;
@@ -112,7 +112,7 @@ body {
   gap: 12px;
   white-space: nowrap;
   border-radius: 8px;
-  padding: 11px 15px;
+  padding: 11px 6px;
   align-items: center;
   text-decoration: none;
   border: 1px solid #1F2943;
@@ -139,13 +139,13 @@ body {
 
 .sidebar-nav .secondary-nav {
   position: absolute;
-  bottom: 35px;
+  bottom: 90px; 
   width: 100%;
   background: #1F2943;
 }
 
-.sidebar-nav .nav-item {
-  position: relative;
+.sidebar-nav .secondary-nav .nav-item {
+  margin-bottom: 0; 
 }
 
 /* Dropdown Stylings */
@@ -224,27 +224,33 @@ body {
   display: none;
 }
 
+
+/* Side Nav CSS Ends */
+
+
 #add-item-form{
   margin-left: 280px ; margin-top: 50px; width: 30rem;
 }
 
+/* Add Item CSS ends */
+
 .fixed-card {
-  width: 250px; /* Set a fixed width for all cards */
-  height: 350px; /* Set a fixed height for all cards */
-}
+  width: 250px; 
+  height: 350px; 
 
 .card-body {
-  overflow: hidden; /* Prevent content overflow */
-  text-align: center; /* Center-align text */
+  overflow: hidden; 
+  text-align: center; 
 }
 
 .card-img-top {
-  height: 150px; /* Set a fixed height for the image */
-  object-fit: cover; /* Ensure the image fits within the specified dimensions */
+  height: 150px; 
+  object-fit: cover; 
 }
 
 
 
+/* View Item CSS ends */
 
 
 /* Responsive media query code for small screens */
@@ -270,7 +276,7 @@ body {
   }
 
   .sidebar.collapsed .sidebar-nav .primary-nav {
-    transform: translateY(15px);
+    transform: translateY(6px);
   }
   #add-item-form{
     margin-left: 20px ; margin-top: 50px; width: 85%;

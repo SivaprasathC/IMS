@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="{% url 'edit/{{item.id}' %" method="POST" enctype="multipart/form-data" class="mt-6" id="edit-item-form">
+    {% csrf_token %}
+    {{message|safe}}
+    <h2>Edit Item</h2>
+    <div class="form-group mt-3">
+      <label for="serialno">Serial Number</label>
+      <input type="text" name="serialno" class="form-control" placeholder="Enter Serial Number" value="{{item.serialno}}" required>
+    </div>
+    <div class="form-group mt-3">
+      <label for="itemname">Item Name</label>
+      <input type="text" name="itemname" class="form-control" placeholder="Enter Item Name" value="{{item.itemname}}" required>
+    </div>
+    <div class="form-group mt-3">
+      <label for="itemdomain">Select Domain</label>
+      <select class="form-control" name="itemdomain" value="{{item.itemdomain}}" required>
+        <option>Domain 1</option>
+        <option>Domain 2</option>
+        <option>Domain 3</option>
+        <option>Domain 4</option>
+        <option>Domain 5</option>
+      </select>
+    </div>
+    <div data-mdb-input-init class="form-outline mt-3" style="width: 22rem;">
+      <label class="itemqty" for="typeNumber">Quantity</label>
+      <input min="0" name="itemqty" max="200" type="number" class="form-control" value="{{item.itemqty}}" required />
+  </div>
+    <div class="custom-file mt-3">
+      <label class="itemimg" for="itemimg">Current Image of the Item</label>
+      {% if item.itemimg %}
+      <div class="mb-2">
+          <img src="{{ item.itemimg.url }}" alt="Current Image" style="max-width: 150px; max-height: 150px;">
+      </div>
+      {% else %}
+        <div class="mb-2">
+          <img src="https://www.caspianpolicy.org/no-image.png" alt="No Image Available" style="max-width: 150px; max-height: 150px;">
+        </div>
+      {% endif %}
+      <input name="itemimg" type="file" class="form-control" id="customFile" />
+     </div>
+     <button class="btn btn-primary mt-2" type="submit">Edit Item</button>
+  </form>
+{% endblock %}

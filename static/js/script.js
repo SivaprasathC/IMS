@@ -49,3 +49,5 @@ document.querySelectorAll(".sidebar-toggler, .sidebar-menu-button").forEach((but
 
 // Collapse sidebar by default on small screens
 if (window.innerWidth <= 1024) document.querySelector(".sidebar").classList.add("collapsed");
+
+

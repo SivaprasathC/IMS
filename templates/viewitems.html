@@ -1,19 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
 <h1 class="text-center my-3">Available Items</h1>
+
+<div class="container mb-4">
+    <form method="GET" action="" class="row">
+        <div class="col-md-6 mb-3">
+            <input type="text" name="search" class="form-control" placeholder="Search by Item Name or Serial Number" >
+        </div>
+        <div class="col-md-4 mb-3">
+            <select name="domain" class="form-control">
+                <option value="">Filter by Domain</option>
+                <option value="Domain 1" {% if request.GET.domain == "Domain 1" %}selected{% endif %}>Domain 1</option>
+                <option value="Domain 2" {% if request.GET.domain == "Domain 2" %}selected{% endif %}>Domain 2</option>
+                <option value="Domain 3" {% if request.GET.domain == "Domain 3" %}selected{% endif %}>Domain 3</option>
+                <option value="Domain 4" {% if request.GET.domain == "Domain 4" %}selected{% endif %}>Domain 4</option>
+                <option value="Domain 5" {% if request.GET.domain == "Domain 5" %}selected{% endif %}>Domain 5</option>
+                <!-- Here, the name of the Select tag  is domain, when GET request is made, the value of the domain will be passed to the view. 
+                {% if request.GET.domain == "Domain 1" %}selected{% endif %} , this line is used to place the selected domain in dropdown after refresh. -->
+            </select> 
+        </div>
+        <div class="col-md-2 mb-3">
+            <button type="submit" class="btn btn-primary w-100">Apply</button>
+        </div>
+    </form>
+</div>
+
 <div class="container">
     <div class="row justify-content-center">
         {% if not items %}
         <div class="col-12 mt-5 text-center">
             <div class="alert alert-danger" role="alert">
-                No items available to display, please add items first.
+                No items available to display
             </div>
         </div>
         {% endif %}
         {% for item in items %}
-        <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-4 d-flex align-items-stretch">
+        <div class="col-6 col-sm-6 col-md-4 col-lg-2 mb-3 d-flex align-items-stretch">
             <div class="card fixed-card">
-                <img src="{{ item.itemimg.url }}" class="card-img-top img-fluid" alt="{{ item.itemname }}">
+                <img src="{% if item.itemimg %}{{ item.itemimg.url }}{% else %}https://www.caspianpolicy.org/no-image.png{% endif %}" class="card-img-top img-fluid" alt="{{ item.itemname }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ item.itemname }}</h5>
                     <p class="card-text">
@@ -21,6 +45,10 @@
                         <strong>Domain:</strong> {{ item.itemdomain }}<br>
                         <strong>Quantity:</strong> {{ item.itemqty }}
                     </p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'edit_item' item.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'delete_item' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
                 </div>
             </div>
         </div>
