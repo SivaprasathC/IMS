@@ -3,6 +3,7 @@ from base_app.models import Item
 import os
 from django.db.models import Q
 from django.shortcuts import redirect
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -82,7 +83,12 @@ def edit_item(request, id):
             item.itemimg = image
         
         item.save()
+        messages.success(request, 'Your Edit was successful!')
         return redirect('viewitems')
     else:
         return render(request, 'edititem.html', {'item': item})
 
+
+def borrow_item(request, id):
+    item = Item.objects.get(id=id)
+    return render(request, 'borrowitem.html', {'item': item})

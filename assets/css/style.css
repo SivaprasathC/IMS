@@ -1,4 +1,3 @@
-/* Importing Google Fonts - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 * {
@@ -83,9 +82,9 @@ body {
   list-style: none;
   display: flex;
   gap: 4px;
-  padding: 15px;
+  padding: 7px;
   flex-direction: column;
-  transform: translateY(15px);
+  transform: translateY(7px);
   transition: 0.4s ease;
 }
 
@@ -112,7 +111,7 @@ body {
   gap: 12px;
   white-space: nowrap;
   border-radius: 8px;
-  padding: 11px 6px;
+  padding: 11px 15px;
   align-items: center;
   text-decoration: none;
   border: 1px solid #1F2943;
@@ -144,8 +143,8 @@ body {
   background: #1F2943;
 }
 
-.sidebar-nav .secondary-nav .nav-item {
-  margin-bottom: 0; 
+.sidebar-nav .nav-item {
+  position: relative;
 }
 
 /* Dropdown Stylings */
@@ -223,8 +222,6 @@ body {
 .sidebar-menu-button {
   display: none;
 }
-
-
 /* Side Nav CSS Ends */
 
 
@@ -232,20 +229,27 @@ body {
   margin-left: 280px ; margin-top: 50px; width: 30rem;
 }
 
-/* Add Item CSS ends */
+#edit-item-form{
+  margin-left: 280px ; margin-top: 50px; width: 30rem;
+}
+#borrow-item-form{
+  margin-left: 280px ; margin-top: 50px; width: 30rem;
+}
+/* Add Item,edit,borrow CSS ends */
 
 .fixed-card {
   width: 250px; 
   height: 350px; 
+}
 
 .card-body {
-  overflow: hidden; 
-  text-align: center; 
+  overflow: hidden;  
+  text-align: center;  
 }
 
 .card-img-top {
-  height: 150px; 
-  object-fit: cover; 
+  height: 150px;  
+  object-fit: cover;  
 }
 
 
@@ -256,7 +260,7 @@ body {
 /* Responsive media query code for small screens */
 @media (max-width: 768px) {
   .sidebar-menu-button {
-    position: fixed;
+    position: absolute;
     left: 20px;
     top: 20px;
     height: 40px;
@@ -276,9 +280,15 @@ body {
   }
 
   .sidebar.collapsed .sidebar-nav .primary-nav {
-    transform: translateY(6px);
+    transform: translateY(15px);
   }
   #add-item-form{
+    margin-left: 20px ; margin-top: 50px; width: 85%;
+  }
+  #edit-item-form{
+    margin-left: 20px ; margin-top: 50px; width: 85%;
+  }
+  #borrow-item-form{
     margin-left: 20px ; margin-top: 50px; width: 85%;
   }
 }

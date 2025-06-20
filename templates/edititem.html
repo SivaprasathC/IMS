@@ -2,7 +2,6 @@
 {% block content %}
 <form action="{% url 'edit_item' item.id %}" method="POST" enctype="multipart/form-data" class="mt-6" id="edit-item-form">
     {% csrf_token %}
-    {{message|safe}}
     <h2>Edit Item</h2>
     <div class="form-group mt-3">
       <label for="serialno">Serial Number</label>

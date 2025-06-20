@@ -82,7 +82,7 @@ body {
   list-style: none;
   display: flex;
   gap: 4px;
-  padding: 7px;
+  padding: 9px;
   flex-direction: column;
   transform: translateY(7px);
   transition: 0.4s ease;
@@ -232,7 +232,10 @@ body {
 #edit-item-form{
   margin-left: 280px ; margin-top: 50px; width: 30rem;
 }
-/* Add Item and edit CSS ends */
+#borrow-item-form{
+  margin-left: 280px ; margin-top: 50px; width: 30rem;
+}
+/* Add Item,edit,borrow CSS ends */
 
 .fixed-card {
   width: 250px; 
@@ -283,6 +286,9 @@ body {
     margin-left: 20px ; margin-top: 50px; width: 85%;
   }
   #edit-item-form{
+    margin-left: 20px ; margin-top: 50px; width: 85%;
+  }
+  #borrow-item-form{
     margin-left: 20px ; margin-top: 50px; width: 85%;
   }
 }
