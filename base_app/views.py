@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from base_app.models import Item
+from base_app.models import Item, BorrowRequest
 import os
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.utils.timezone import localtime, now
 
 # Create your views here.
 def index(request):
@@ -62,7 +63,10 @@ def viewitems(request):
 
 def delete_item(request, id):
     item = Item.objects.get(id=id)
+    item_name = item.itemname
     item.delete()
+    message = item_name + ' has been deleted successfully!'
+    messages.success(request, message)
     return redirect('viewitems')
 
 def edit_item(request, id):
@@ -92,3 +96,40 @@ def edit_item(request, id):
 def borrow_item(request, id):
     item = Item.objects.get(id=id)
     return render(request, 'borrowitem.html', {'item': item})
+
+def new_borrow_request(request):
+    if request.method == 'POST':
+        borrower_userid = request.POST.get('borrower_userid')
+        borrower_name = request.POST.get('borrower_name')
+        borrower_roll = request.POST.get('borrower_roll')
+        borrow_serialno = request.POST.get('borrow_serialno')
+        borrow_itemname = request.POST.get('borrow_itemname')
+        borrow_itemdomain = request.POST.get('borrow_itemdomain')
+        borrowermobile = request.POST.get('borrowermobile')
+        borrowreason = request.POST.get('borrowreason')
+        borrowqty = request.POST.get('borrowqty')
+        borrow_returndate = request.POST.get('borrow_returndate')
+       
+        time = localtime(now())
+
+        new_request = BorrowRequest(
+            
+            borrower_userid=borrower_userid,
+            borrower_name=borrower_name,
+            borrower_roll=borrower_roll,
+            borrow_serialno=borrow_serialno,
+            borrow_itemname=borrow_itemname,
+            borrow_itemdomain=borrow_itemdomain,
+            borrowermobile=borrowermobile,
+            borrowreason=borrowreason,
+            borrowqty=borrowqty,
+            borrow_returndate=borrow_returndate,
+            borrow_made_date_time = time.strftime("%d/%m/%Y %H:%M")
+        )
+        new_request.save()
+        messages.success(request, 'Borrow Request Submitted Successfully!')
+        return redirect('viewitems')
+
+def borrow_requests_list(request):
+    borrow_requests = BorrowRequest.objects.all()
+    return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})

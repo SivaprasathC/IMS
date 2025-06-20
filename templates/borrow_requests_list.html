@@ -1,0 +1,50 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mt-4" id="borrow_request_container">
+  <h1 class="text-center mb-4">Borrow Requests</h1>
+  <div class="row justify-content-center">
+    {%if not borrow_requests%}
+    <div class="alert alert-danger text-center" role="alert">No Borrow Requests Found!</div>
+    {% endif %}
+    {% for request in borrow_requests %}
+    <div class="col-md-3 mb-4 d-flex align-items-stretch">
+      <div class="card h-100 d-flex flex-column" style="width: 18rem">
+        <div class="card-header bg-dark text-white">
+          <h5 class="card-title mb-0">Item: {{ request.borrow_itemname }}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Requested By:</strong> {{ request.borrower_name }}</p>
+          <p><strong>Roll Number:</strong> {{ request.borrower_roll }}</p>
+          <p><strong>Mobile Number:</strong> {{ request.borrowermobile }}</p>
+          <p><strong>Quantity:</strong> {{ request.borrowqty }}</p>
+          <p><strong>Return Date:</strong> {{ request.borrow_returndate }}</p>
+          <p>Request Date and Time: {{ request.borrow_made_date_time }}</p>
+          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal">
+            Reason
+          </button>
+        </div>
+        <div class="card-footer mt-auto d-flex justify-content-between">
+          <a href="#" class="btn btn-success btn-sm">Accept</a>
+          <a href="#" class="btn btn-danger btn-sm">Reject</a>
+        </div>
+        <div class="modal fade" id="reasonModal" tabindex="-1" aria-labelledby="reasonModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ReasonModalLabel">Reason</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {{request.borrowreason}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

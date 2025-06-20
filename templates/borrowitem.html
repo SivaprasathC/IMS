@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{% url 'borrow_item' item.id %}" method="POST" class="mt-6" id="borrow-item-form">
+<form action="{% url 'new_borrow_request' %}" method="POST" class="mt-6" id="borrow-item-form">
     {% csrf_token %}
     <h2>Borrow Item</h2>
     <div class="alert alert-success" role="alert">
@@ -12,9 +12,12 @@
     </div>
     <div class="form-group mt-3">
       <!-- dummy input for  item details into POST -->
-      <input type="text" name="borrow_serialno"  placeholder="Enter Serial Number" value="{{item.serialno}}" style="display: none;">
-      <input type="text" name="borrow_itemname"  placeholder="Enter Item Name" value="{{item.itemname}}" style="display: none;">
-      <select name="borrow_itemdomain" value="{{item.itemdomain}}" style="display: none;"></select>
+      <input type="text" name="borrower_userid" value="Filler user id" style="display: none;">
+      <input type="text" name="borrower_name" value="Filler name" style="display: none;">
+      <input type="text" name="borrower_roll" value="Filler roll" style="display: none;">
+      <input type="text" name="borrow_serialno" value="{{item.serialno}}" style="display: none;">
+      <input type="text" name="borrow_itemname" value="{{item.itemname}}" style="display: none;">
+      <input type="text" name="borrow_itemdomain" value="{{item.itemdomain}}" style="display: none;">
 
       <label for="mobile">Mobile Number</label>
       <input type="tel" name="borrowermobile" class="form-control" placeholder="Enter Your Mobile Number" required>
@@ -28,11 +31,24 @@
       <input min="1" name="borrowqty" max="{{item.itemqty}}" type="number" class="form-control" required />
   </div>
   <div class="form-group mt-3">
-    <label for="date">Return Date (Maximum 15 Days) (MM-DD-YYYY)</label>
+    <label for="date">Return Date (Maximum 15 Days)</label>
     <input class="form-control" type="date" id="returndate" name="borrow_returndate" required>
   </div>
-    
-     <button class="btn btn-primary mt-2" type="submit">Submit Request</button>
+      <!-- borrow information -->
+      <div class="container mt-3">
+        <div class="alert alert-primary alert-dismissible fade show pt-0" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> 
+            <span>
+              <p><strong>Please read the below conditions before placing the request</strong></p>
+              <p class="mb-0">1. The Item Should be returned within the due date.
+              <p class="mb-0">2. If you need the item even after the due date, Please renew the request within the due date.</p>
+              <p class="mb-0">3. On Keeping the product after due date or damage to the product will leads to penalty.</p>
+              <hr>
+              <p class="mb-0">By submitting the request, You accept all the terms above.</p>
+            </span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+     <button class="btn btn-primary my-2" type="submit">Submit Request</button>
   </form>
 
   <script>
