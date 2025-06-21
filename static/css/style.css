@@ -250,7 +250,7 @@ body {
   margin-left: 125px;
 }
 #borrow_request_container{
-  margin-left: 250px;
+  margin-left: 14vw;
 }
 
 
@@ -289,6 +289,6 @@ body {
     margin-left: 0px;
   }
   #borrow_request_container {
-    margin-left: 25px;
+    margin-left: 12vw;
   }
 }

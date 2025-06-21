@@ -131,5 +131,7 @@ def new_borrow_request(request):
         return redirect('viewitems')
 
 def borrow_requests_list(request):
+    search_query = request.GET.get('search_roll', '')
     borrow_requests = BorrowRequest.objects.all()
+    borrow_requests=borrow_requests.filter(Q(borrower_roll__icontains=search_query))
     return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})

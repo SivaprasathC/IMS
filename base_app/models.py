@@ -26,3 +26,4 @@ class BorrowRequest(models.Model):
     is_drh_approved = models.BooleanField(default=False)
     rejection_reason = models.CharField(max_length=50,default='')
     borrow_made_date_time = models.CharField(max_length=50)
+    final_approved = models.BooleanField(default=False)
