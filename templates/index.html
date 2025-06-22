@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
     <div class="content-wrapper d-flex justify-content-center align-items-center flex-wrap" style="height: 80vh">
         <div class="col-sm-12 col-md-6">
+            {% if user.is_authenticated %}
+            <p class="text-center h5 mb-5">Hi, {{user.first_name}} 👋</p>
+            {%endif%}
             <center><p style="color:Black;">Kumaraguru Institutions </p>
                 <H3 style="color:Black;">iQube Inventory Management</H3>
             </center>
