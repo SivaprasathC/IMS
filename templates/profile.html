@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{%load static %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="{% static 'img/profile.png' %}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    <h4 class="card-title">{{ user.first_name }}</h4>
+                    <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
+                    <p class="card-text"><strong>Role:</strong> {{ user.role }}</p>
+                    
+                    {% if user.domain %}
+                    <p class="card-text"><strong>Domain:</strong> {{ user.domain }}</p>
+                    {% endif %}
+                    
+                    {% if user.roll_number %}
+                    <p class="card-text"><strong>Roll Number:</strong> {{ user.roll_number }}</p>
+                    {% endif %}
+                    
+                    <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

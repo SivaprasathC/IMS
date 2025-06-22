@@ -10,4 +10,7 @@ path('edit/<int:id>/', views.edit_item, name='edit_item'),
 path('borrowitem/<int:id>/', views.borrow_item, name='borrow_item'),
 path('newborrowrequest', views.new_borrow_request, name='new_borrow_request'),
 path('borrowrequests', views.borrow_requests_list, name='borrow_requests_list'),
+path('login',views.login,name='login'),
+path('logout',views.logout,name='logout'),
+path('me',views.me,name='me'),
 ]

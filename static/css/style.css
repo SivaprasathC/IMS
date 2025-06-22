@@ -82,7 +82,7 @@ body {
   list-style: none;
   display: flex;
   gap: 4px;
-  padding: 9px;
+  padding: 7px;
   flex-direction: column;
   transform: translateY(7px);
   transition: 0.4s ease;
@@ -138,7 +138,7 @@ body {
 
 .sidebar-nav .secondary-nav {
   position: absolute;
-  bottom: 90px; 
+  bottom: 40px; 
   width: 100%;
   background: #1F2943;
 }
@@ -289,6 +289,9 @@ body {
     margin-left: 0px;
   }
   #borrow_request_container {
-    margin-left: 12vw;
+    margin-left: 10vw;
+  }
+  #img404{
+    margin-top: 200px;
   }
 }

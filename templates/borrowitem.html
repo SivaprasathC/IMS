@@ -12,9 +12,9 @@
     </div>
     <div class="form-group mt-3">
       <!-- dummy input for  item details into POST -->
-      <input type="text" name="borrower_userid" value="Filler user id" style="display: none;">
-      <input type="text" name="borrower_name" value="Filler name" style="display: none;">
-      <input type="text" name="borrower_roll" value="Filler roll" style="display: none;">
+      <input type="text" name="borrower_userid" value="{{user.id}}" style="display: none;">
+      <input type="text" name="borrower_name" value="{{user.first_name}}" style="display: none;">
+      <input type="text" name="borrower_roll" value="{{user.roll_number}}" style="display: none;">
       <input type="text" name="borrow_serialno" value="{{item.serialno}}" style="display: none;">
       <input type="text" name="borrow_itemname" value="{{item.itemname}}" style="display: none;">
       <input type="text" name="borrow_itemdomain" value="{{item.itemdomain}}" style="display: none;">

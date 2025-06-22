@@ -21,13 +21,16 @@
                             </a>
                         </div> -->
                         <br><br>
+                        {% if not user.is_authenticated %}
                         <div class="col-sm-6" align="center">
                             <a class="btn btn-social btn-primary" href="#"
                                style="text-transform: none;">
                                 <span class="fab fa-google"></span>
                                 Sign in
                             </a>
+                            <p class="h6 text-center mt-5 mb-1 text-dark">Inventory Management People?</p><a href="{%url 'login' %}" class="text-decoration-none mt-1" style="color: #2E96F3;">Click Here to Login</a>
                         </div>
+                        {% endif %}
                     </div>
             </div>
         </div>

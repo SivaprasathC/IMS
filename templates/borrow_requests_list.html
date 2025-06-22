@@ -27,6 +27,7 @@
                     <p><strong>Roll Number:</strong> {{ request.borrower_roll }}</p>
                     <p><strong>Mobile Number:</strong> {{ request.borrowermobile }}</p>
                     <p><strong>Quantity:</strong> {{ request.borrowqty }}</p>
+                    <p><strong>Domain:</strong> {{ request.borrow_itemdomain }}</p>
                     <p><strong>Return Date:</strong> {{ request.borrow_returndate }}</p>
                     <p>Request Date and Time: {{ request.borrow_made_date_time }}</p>
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{request.id}}">

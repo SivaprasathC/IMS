@@ -29,42 +29,109 @@
           <span class="material-symbols-rounded">chevron_left</span>
         </button>
       </header>
+<!-- Nav Bar for Lead -->
+      {% if user.is_authenticated and user.role == 'Lead'%}
+         <nav class="sidebar-nav">
+    <!-- Primary Top Nav -->
+    <ul class="nav-list primary-nav">
+      <li class="nav-item">
+        <a href="#" class="nav-link" style="background: none; color: #fff; pointer-events: none;">
+          <span class="nav-label">Role: {{user.role}}</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'me' %}" class="nav-link">
+          <span class="material-symbols-rounded">account_circle</span>
+          <span class="nav-label">Profile</span>
+        </a>
+      </li>
 
+      <li class="nav-item">
+        <a href="{% url 'viewitems' %}" class="nav-link">
+          <span class="material-symbols-rounded">table</span>
+          <span class="nav-label">View Items </span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'add_item' %}" class="nav-link">
+          <span class="material-symbols-rounded">add_box</span>
+          <span class="nav-label">Add Item</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{%url 'borrow_requests_list' %}" class="nav-link">
+          <span class="material-symbols-rounded">hail</span>
+          <span class="nav-label">Borrow Requests</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-rounded">check</span>
+          <span class="nav-label">Mark as Returned</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-rounded">manage_accounts</span>
+          <span class="nav-label">Add Domain Heads</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-rounded">manage_accounts</span>
+          <span class="nav-label">Add PM or Lead</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <span class="material-symbols-rounded">database</span>
+          <span class="nav-label">Inventory Statistics</span>
+        </a>
+      </li>
+    </ul>
+    <!-- Secondary Bottom Nav -->
+    <ul class="nav-list secondary-nav">
+      <li class="nav-item">
+        <a href="{% url 'logout' %}" class="nav-link">
+          <span class="material-symbols-rounded">logout</span>
+          <span class="nav-label">Sign Out</span>
+        </a>
+        <ul class="dropdown-menu">
+          <li class="nav-item"><a class="nav-link dropdown-title">Sign Out</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+      {% endif %}
+<!-- Nav Bar for PM -->
+      {% if user.is_authenticated and user.role == 'Product Manager' or user.role == 'Super User'%}
       <nav class="sidebar-nav">
         <!-- Primary Top Nav -->
-         
         <ul class="nav-list primary-nav">
-          
           <li class="nav-item">
             <a href="#" class="nav-link" style="background: none; color: #fff; pointer-events: none;">
-              <span class="nav-label">Role: Product Manager</span>
+              <span class="nav-label">Role: {{user.role}}</span>
             </a>
           </li>
-
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{% url 'me' %}" class="nav-link">
               <span class="material-symbols-rounded">account_circle</span>
               <span class="nav-label">Profile</span>
             </a>
           </li>
-
+    
           <li class="nav-item">
             <a href="{% url 'viewitems' %}" class="nav-link">
               <span class="material-symbols-rounded">table</span>
-              <span class="nav-label">View Items</span>
+              <span class="nav-label">View Items </span>
             </a>
           </li>
-
           <li class="nav-item">
             <a href="{% url 'add_item' %}" class="nav-link">
               <span class="material-symbols-rounded">add_box</span>
               <span class="nav-label">Add Item</span>
             </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Profile</a></li>
-            </ul>
           </li>
-
           <li class="nav-item">
             <a href="{%url 'borrow_requests_list' %}" class="nav-link">
               <span class="material-symbols-rounded">hail</span>
@@ -83,20 +150,18 @@
               <span class="nav-label">Add Domain Heads</span>
             </a>
           </li>
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">History</span>
-              <span class="nav-label">Borrow History</span>
+              <span class="material-symbols-rounded">database</span>
+              <span class="nav-label">Inventory Statistics</span>
             </a>
           </li>
         </ul>
-
-
         <!-- Secondary Bottom Nav -->
         <ul class="nav-list secondary-nav">
-      
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{% url 'logout' %}" class="nav-link">
               <span class="material-symbols-rounded">logout</span>
               <span class="nav-label">Sign Out</span>
             </a>
@@ -106,6 +171,141 @@
           </li>
         </ul>
       </nav>
+      {% endif %}
+<!-- Nav Bar for DH and DRH -->
+      {% if user.is_authenticated %}
+        {% if user.role == 'Domain Head' or user.role == 'Department Resource Head'%}
+        <nav class="sidebar-nav">
+          <!-- Primary Top Nav -->
+          <ul class="nav-list primary-nav">
+            <li class="nav-item">
+              <a href="#" class="nav-link" style="background: none; color: #fff; pointer-events: none;">
+                <span class="nav-label">Role: {{user.role}}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'me' %}" class="nav-link">
+                <span class="material-symbols-rounded">account_circle</span>
+                <span class="nav-label">Profile</span>
+              </a>
+            </li>
+      
+            <li class="nav-item">
+              <a href="{% url 'viewitems' %}" class="nav-link">
+                <span class="material-symbols-rounded">table</span>
+                <span class="nav-label">View Items </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'add_item' %}" class="nav-link">
+                <span class="material-symbols-rounded">add_box</span>
+                <span class="nav-label">Add Item</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{%url 'borrow_requests_list' %}" class="nav-link">
+                <span class="material-symbols-rounded">hail</span>
+                <span class="nav-label">Borrow Requests</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="material-symbols-rounded">check</span>
+                <span class="nav-label">Mark as Returned</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <span class="material-symbols-rounded">database</span>
+                <span class="nav-label">Inventory Statistics</span>
+              </a>
+            </li>
+          </ul>
+          <!-- Secondary Bottom Nav -->
+          <ul class="nav-list secondary-nav">
+            <li class="nav-item">
+              <a href="{% url 'logout' %}" class="nav-link">
+                <span class="material-symbols-rounded">logout</span>
+                <span class="nav-label">Sign Out</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="nav-item"><a class="nav-link dropdown-title">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        {% endif %}
+      {% endif %}
+<!-- Nav Bar for Student -->
+      {% if user.is_authenticated and user.role == 'Student' %}
+      <nav class="sidebar-nav">
+        <!-- Primary Top Nav -->
+        <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a href="#" class="nav-link" style="background: none; color: #fff; pointer-events: none;">
+              <span class="nav-label">Role: {{user.role}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'me' %}" class="nav-link">
+              <span class="material-symbols-rounded">account_circle</span>
+              <span class="nav-label">Profile</span>
+            </a>
+          </li>
+    
+          <li class="nav-item">
+            <a href="{% url 'viewitems' %}" class="nav-link">
+              <span class="material-symbols-rounded">table</span>
+              <span class="nav-label">View Items </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="material-symbols-rounded">History</span>
+              <span class="nav-label">Borrow History</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="tel:+91 9999999999" class="nav-link">
+              <span class="material-symbols-rounded">phone</span>
+              <span class="nav-label">Contact</span>
+            </a>
+          </li>
+        </ul>
+        <!-- Secondary Bottom Nav -->
+        <ul class="nav-list secondary-nav">
+          <li class="nav-item">
+            <a href="{% url 'logout' %}" class="nav-link">
+              <span class="material-symbols-rounded">logout</span>
+              <span class="nav-label">Sign Out</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="nav-item"><a class="nav-link dropdown-title">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      {% endif %}
+<!-- Nav Bar for not Authenticated -->
+      {% if not user.is_authenticated%}
+      <nav class="sidebar-nav">
+        <!-- Primary Top Nav -->
+        <ul class="nav-list primary-nav">
+          <li class="nav-item">
+            <a href="/" class="nav-link">
+              <span class="material-symbols-rounded">home</span>
+              <span class="nav-label">Home</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="tel:+91 9999999999" class="nav-link">
+              <span class="material-symbols-rounded">phone</span>
+              <span class="nav-label">Contact</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      {% endif %}
     </aside>
 
     {%block content%}

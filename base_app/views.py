@@ -5,6 +5,9 @@ from django.db.models import Q
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.timezone import localtime, now
+from django.contrib.auth.models import User, auth
+from base_app.models import CustomUser
+
 
 # Create your views here.
 def index(request):
@@ -135,3 +138,26 @@ def borrow_requests_list(request):
     borrow_requests = BorrowRequest.objects.all()
     borrow_requests=borrow_requests.filter(Q(borrower_roll__icontains=search_query))
     return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})
+
+def login(request):
+    if request.method == 'POST' :
+       username = request.POST['username']
+       password = request.POST['password']
+       user = auth.authenticate(username=username,password=password)
+       print(user)
+       if user is None:
+           messages.info(request,'Invalid Credentials! Please Contact the Product Manager or Lead')
+           return redirect('login')
+       else:
+           auth.login(request,user)
+           return redirect('/')
+    else:   
+       return render(request,'login.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+def me(request):
+    return render(request,'profile.html')
