@@ -22,6 +22,7 @@ class BorrowRequest(models.Model):
     borrowqty = models.PositiveIntegerField()
     borrow_returndate = models.DateField() 
     borrow_status = models.CharField(max_length=20, default='Pending') 
+    is_Lead_approved = models.BooleanField(default=False)
     is_pm_approved = models.BooleanField(default=False)
     is_dh_approved = models.BooleanField(default=False)
     is_drh_approved = models.BooleanField(default=False)

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from base_app.models import Item, BorrowRequest
+from base_app.models import Item,BorrowRequest
 import os
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -144,7 +144,6 @@ def login(request):
        username = request.POST['username']
        password = request.POST['password']
        user = auth.authenticate(username=username,password=password)
-       print(user)
        if user is None:
            messages.info(request,'Invalid Credentials! Please Contact the Product Manager or Lead')
            return redirect('login')
@@ -161,3 +160,8 @@ def logout(request):
 
 def me(request):
     return render(request,'profile.html')
+
+def borrow_history(request):
+    borrow_request = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
+    return render(request, 'borrowhistory.html', {'borrow_request': borrow_request})
+

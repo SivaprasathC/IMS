@@ -13,4 +13,5 @@ path('borrowrequests', views.borrow_requests_list, name='borrow_requests_list'),
 path('login',views.login,name='login'),
 path('logout',views.logout,name='logout'),
 path('me',views.me,name='me'),
+path('borrowhistory',views.borrow_history,name='borrow_history'),
 ]
