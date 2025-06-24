@@ -14,4 +14,5 @@ path('login',views.login,name='login'),
 path('logout',views.logout,name='logout'),
 path('me',views.me,name='me'),
 path('borrowhistory',views.borrow_history,name='borrow_history'),
+path('borrowaccept/<int:id>/',views.borrow_accept,name='borrow_accept'),
 ]

@@ -30,7 +30,7 @@
         </button>
       </header>
 <!-- Nav Bar for Lead -->
-      {% if user.is_authenticated and user.role == 'Lead'%}
+      {% if user.is_authenticated and user.role == 'Lead' or user.role == 'Super User'%}
          <nav class="sidebar-nav">
     <!-- Primary Top Nav -->
     <ul class="nav-list primary-nav">
@@ -104,7 +104,7 @@
   </nav>
       {% endif %}
 <!-- Nav Bar for PM -->
-      {% if user.is_authenticated and user.role == 'Product Manager' or user.role == 'Super User'%}
+      {% if user.is_authenticated and user.role == 'Product Manager'%}
       <nav class="sidebar-nav">
         <!-- Primary Top Nav -->
         <ul class="nav-list primary-nav">
@@ -174,7 +174,7 @@
       {% endif %}
 <!-- Nav Bar for DH and DRH -->
       {% if user.is_authenticated %}
-        {% if user.role == 'Domain Head' or user.role == 'Department Resource Head'%}
+        {% if user.role == 'Domain Head' or user.role == 'Domain Resource Head'%}
         <nav class="sidebar-nav">
           <!-- Primary Top Nav -->
           <ul class="nav-list primary-nav">

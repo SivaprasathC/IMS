@@ -38,9 +38,7 @@
           {% endif %} {% if request.is_drh_approved %}
           <span class="badge bg-success">DRH</span>
           {%else%}
-          <span class="badge bg-warning"
-            >DRH</span
-          >
+          <span class="badge bg-warning">DRH</span>
           {% endif %}
 
           <p class="mt-3"><strong>Final Approval:</strong></p>
@@ -52,7 +50,7 @@
         </div>
         {% if request.borrow_status == 'Approved'%}
         <div class="card-footer text-center {%if request.is_returned%} bg-succsess {% else%}bg-danger {%endif%}">
-          {% if request.is_returned %}
+          {% if request.borrow_status == "Returned" %}
           <span class="text-white h6">Returned</span>
           {% else %}
           <span class="text-white h6">Not Returned</span>

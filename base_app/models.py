@@ -21,22 +21,22 @@ class BorrowRequest(models.Model):
     borrowreason = models.TextField()
     borrowqty = models.PositiveIntegerField()
     borrow_returndate = models.DateField() 
-    borrow_status = models.CharField(max_length=20, default='Pending') 
+    borrow_status = models.CharField(max_length=20, choices=[
+        ('Pending', 'Pending'),('Approved', 'Approved'), 
+        ('Rejected', 'Rejected'),('Returned', 'Returned')],default='Pending') 
     is_Lead_approved = models.BooleanField(default=False)
     is_pm_approved = models.BooleanField(default=False)
     is_dh_approved = models.BooleanField(default=False)
     is_drh_approved = models.BooleanField(default=False)
     rejection_reason = models.CharField(max_length=50,default='')
     borrow_made_date_time = models.CharField(max_length=50)
-    final_approved = models.BooleanField(default=False)
-    is_returned = models.BooleanField(default=False)
 
 class CustomUser(AbstractUser):
     roll_number = models.CharField(max_length=50, unique=True,blank=True, null=True)
     role = models.CharField(max_length=50, choices=[
         ('Super User', 'Super User'),('Lead', 'Lead'), 
         ('Product Manager', 'Product Manager'),('Domain Head', 'Domain Head'),
-        ('Department Resource Head', 'Department Resource Head'),('Student', 'Student')],blank=True, null=True)
+        ('Domain Resource Head', 'Domain Resource Head'),('Student', 'Student')],blank=True, null=True)
     domain = models.CharField(max_length=50, blank=True, null=True,choices=[
         ('Domain 1', 'Domain 1'),('Domain 2', 'Domain 2'), 
         ('Domain 3', 'Domain 3'),('Domain 4', 'Domain 4'),

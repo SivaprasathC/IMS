@@ -135,8 +135,17 @@ def new_borrow_request(request):
 
 def borrow_requests_list(request):
     search_query = request.GET.get('search_roll', '')
+    user_domain = request.user.domain 
     borrow_requests = BorrowRequest.objects.all()
-    borrow_requests=borrow_requests.filter(Q(borrower_roll__icontains=search_query))
+    # search func mixed with domain filter based on domain head or drh domain and only pending
+    if search_query:
+        borrow_requests = borrow_requests.filter(Q(borrower_roll__icontains=search_query))
+    if user_domain:
+        borrow_requests = borrow_requests.filter(
+            Q(borrow_itemdomain=user_domain) & Q(borrow_status="Pending")
+        )
+    else:
+        borrow_requests = borrow_requests.exclude(Q(borrow_status="Approved") | Q(borrow_status="Rejected") | Q(borrow_status="Returned"))
     return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})
 
 def login(request):
@@ -164,4 +173,29 @@ def me(request):
 def borrow_history(request):
     borrow_request = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
     return render(request, 'borrowhistory.html', {'borrow_request': borrow_request})
+
+def borrow_accept(request,id):
+      borrow_request = BorrowRequest.objects.get(id=id)
+      if(request.user.role == "Lead" or request.user.role == "Super User" ):
+            borrow_request.is_Lead_approved = True
+            borrow_request.borrow_status = "Approved"
+            borrow_request.save()
+      elif (request.user.role == "Product Manager"):
+             borrow_request.is_pm_approved = True
+             borrow_request.borrow_status = "Approved"
+             borrow_request.save()
+      elif (request.user.role == "Domain Head"):
+              borrow_request.is_dh_approved = True
+              if(borrow_request.is_drh_approved == True):
+                    borrow_request.borrow_status = "Approved"
+              borrow_request.save()
+      elif (request.user.role == "Domain Resource Head"):
+              borrow_request.is_drh_approved = True
+              if(borrow_request.is_dh_approved == True):
+                  borrow_request.borrow_status = "Approved"
+              borrow_request.save()
+      messages.success(request, 'Request Approved Successfully!')
+      return redirect('borrow_requests_list')
+
+
 
