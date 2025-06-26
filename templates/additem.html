@@ -14,13 +14,21 @@
     </div>
     <div class="form-group mt-3">
       <label for="itemdomain">Select Domain</label>
-      <select class="form-control" name="itemdomain" required>
-        <option>Domain 1</option>
-        <option>Domain 2</option>
-        <option>Domain 3</option>
-        <option>Domain 4</option>
-        <option>Domain 5</option>
+      <!-- domain ppl can add item of that domain only, lead and pm can add of any domain -->
+      {% if user.domain %}
+      <select class="form-control" name="itemdomain_display" disabled required>
+        <option value="{{ user.domain }}" selected>{{ user.domain }}</option>
       </select>
+      <input type="hidden" name="itemdomain" value="{{ user.domain }}">
+    {% else %}
+      <select class="form-control" name="itemdomain" required>
+        <option value="Domain 1">Domain 1</option>
+        <option value="Domain 2">Domain 2</option>
+        <option value="Domain 3">Domain 3</option>
+        <option value="Domain 4">Domain 4</option>
+        <option value="Domain 5">Domain 5</option>
+      </select>
+    {% endif %}
     </div>
     <div data-mdb-input-init class="form-outline mt-3" style="width: 22rem;">
       <label class="itemqty" for="typeNumber">Quantity</label>

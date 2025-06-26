@@ -112,26 +112,32 @@ def new_borrow_request(request):
         borrowreason = request.POST.get('borrowreason')
         borrowqty = request.POST.get('borrowqty')
         borrow_returndate = request.POST.get('borrow_returndate')
-       
         time = localtime(now())
-
-        new_request = BorrowRequest(
-            
-            borrower_userid=borrower_userid,
-            borrower_name=borrower_name,
-            borrower_roll=borrower_roll,
-            borrow_serialno=borrow_serialno,
-            borrow_itemname=borrow_itemname,
-            borrow_itemdomain=borrow_itemdomain,
-            borrowermobile=borrowermobile,
-            borrowreason=borrowreason,
-            borrowqty=borrowqty,
-            borrow_returndate=borrow_returndate,
-            borrow_made_date_time = time.strftime("%d/%m/%Y %H:%M")
-        )
-        new_request.save()
-        messages.success(request, 'Borrow Request Submitted Successfully!')
-        return redirect('viewitems')
+        borrowqty = int(borrowqty)
+      #only will submit request if qty available at that time(to avoid multiple users placing request)
+        item= Item.objects.get(serialno = borrow_serialno)
+        if (item.itemqty >= borrowqty):
+            item.itemqty = item.itemqty-borrowqty
+            item.save()
+            new_request = BorrowRequest(
+                borrower_userid=borrower_userid,
+                borrower_name=borrower_name,
+                borrower_roll=borrower_roll,
+                borrow_serialno=borrow_serialno,
+                borrow_itemname=borrow_itemname,
+                borrow_itemdomain=borrow_itemdomain,
+                borrowermobile=borrowermobile,
+                borrowreason=borrowreason,
+                borrowqty=borrowqty,
+                borrow_returndate=borrow_returndate,
+                borrow_made_date_time = time.strftime("%d/%m/%Y %H:%M") 
+                )
+            new_request.save()
+            messages.success(request, 'Borrow Request Submitted Successfully!')
+            return redirect('viewitems')
+        else:
+                messages.success(request, 'Item is currently Out of Stock!')
+                return redirect('viewitems')
 
 def borrow_requests_list(request):
     search_query = request.GET.get('search_roll', '')
@@ -171,8 +177,11 @@ def me(request):
     return render(request,'profile.html')
 
 def borrow_history(request):
-    borrow_request = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
-    return render(request, 'borrowhistory.html', {'borrow_request': borrow_request})
+    borrow_requests = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
+    pending_requests = borrow_requests.filter(borrow_status="Pending")
+    approved_requests = borrow_requests.filter(borrow_status="Approved")
+    rejected_requests = borrow_requests.filter(borrow_status="Rejected")
+    return render(request, 'borrowhistory.html', {'pending_requests': pending_requests,'approved_requests': approved_requests,'rejected_requests': rejected_requests})
 
 def borrow_accept(request,id):
       borrow_request = BorrowRequest.objects.get(id=id)
@@ -196,6 +205,24 @@ def borrow_accept(request,id):
               borrow_request.save()
       messages.success(request, 'Request Approved Successfully!')
       return redirect('borrow_requests_list')
+
+def borrow_reject(request,id):
+    if request.method == 'POST':
+            borrow_request = BorrowRequest.objects.get(id=id)
+            rejection_reason = request.POST.get('rejection_reason')
+            borrow_request.borrow_status = "Rejected"
+            borrow_request.rejection_reason = rejection_reason
+            borrow_request.rejectedby = request.user.first_name+"-"+request.user.role
+            borrow_request.save()
+
+            itemserialno = request.POST.get('itemserialno')
+            borrowqty = request.POST.get('borrowqty')
+            item = Item.objects.get(serialno = itemserialno)
+            item.itemqty = item.itemqty + int(borrowqty)
+            item.save()
+            messages.success(request, 'Request Rejected Successfully!')
+            return redirect('borrow_requests_list')
+    
 
 
 

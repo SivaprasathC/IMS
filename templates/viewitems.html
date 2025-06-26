@@ -66,9 +66,15 @@
                     </div>
                     {%endif%}
                     {%if user.role == 'Student'%}
+                       {% if item.itemqty != 0 %}
                     <div class="d-flex justify-content-center mt-2">
                         <a href="{% url 'borrow_item' item.id %}" class="btn btn-success btn-md">Borrow</a>
                     </div>
+                       {%else%}
+                       <div class="text-center">
+                        <p class="h6 text-danger text-center">Out of Stock</p>
+                    </div>
+                        {%endif%}
                     {%endif%}
                 </div>
             </div>

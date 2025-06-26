@@ -1,8 +1,15 @@
 from django.contrib import admin
-from base_app.models import Item
-from base_app.models import BorrowRequest
-from .models import CustomUser
+from base_app.models import *
 # Register your models here.
-admin.site.register(CustomUser)
-admin.site.register(Item)
-admin.site.register(BorrowRequest)
+class SearchCustomUser(admin.ModelAdmin):
+    search_fields = ('username', 'first_name', 'role', 'domain', 'roll_number')
+
+class SearchBorrowRequest(admin.ModelAdmin):
+    search_fields = ('borrow_itemname','borrower_roll','borrow_status')
+
+class SearchItem(admin.ModelAdmin):
+    search_fields = ('serialno','itemname')
+
+admin.site.register(CustomUser,SearchCustomUser)
+admin.site.register(Item,SearchItem)
+admin.site.register(BorrowRequest,SearchBorrowRequest)

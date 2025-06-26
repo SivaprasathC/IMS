@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h1 class="text-center my-3">Borrow Requests</h1>
 <div class="container mb-2">
   <form method="GET" action="" class="row justify-content-center">
@@ -11,6 +12,7 @@
       </div>
   </form>
 </div>
+
 {% if messages %}
 <div class="container mt-3">
     {% for message in messages %}
@@ -22,6 +24,8 @@
    {% endfor %}
 </div>
 {% endif %}
+
+
 <div class="container mt-2" id="borrow_request_container">
     <div class="row justify-content-center">
         {% if not borrow_requests %}
@@ -41,14 +45,14 @@
                     <p><strong>Domain:</strong> {{ request.borrow_itemdomain }}</p>
                     <p><strong>Return Date:</strong> {{ request.borrow_returndate }}</p>
                     <p>Request Date and Time: {{ request.borrow_made_date_time }}</p>
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{request.id}}">
-                        Reason
-                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{request.id}}">Reason</button>
                 </div>
                 <div class="card-footer mt-auto d-flex justify-content-between">
-                    <a href="{%url 'borrow_accept' request.id %}" class="btn btn-success btn-sm">Accept</a>
-                    <a href="#" class="btn btn-danger btn-sm">Reject</a>
+                    <a href="{% url 'borrow_accept' request.id %}" class="btn btn-success btn-sm">Accept</a>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#rejectModal{{request.id}}">Reject</button>
                 </div>
+
+
                 <div class="modal fade" id="reasonModal{{request.id}}" tabindex="-1" aria-labelledby="reasonModalLabel{{request.id}}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -62,6 +66,34 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+        
+
+                <div class="modal fade" id="rejectModal{{request.id}}" tabindex="-1" aria-labelledby="rejectModalLabel{{request.id}}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="rejectModalLabel{{request.id}}">Reject Borrow Request</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="{% url 'borrow_reject' request.id %}">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <!-- passing item serial and borrow qty to increase the qty after rejection to reject fn (dummy input) -->
+                                        <input type="text" value="{{request.borrow_serialno}}" name="itemserialno" style="display: none;">
+                                        <input type="number" value="{{request.borrowqty}}" name="borrowqty" style="display: none;">
+                                        <label for="rejectionReason{{request.id}}">Rejection Reason</label>
+                                        <textarea class="form-control" id="rejectionReason{{request.id}}" name="rejection_reason" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Submit</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

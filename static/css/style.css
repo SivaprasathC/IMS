@@ -246,11 +246,14 @@ body {
 }
 
 .ViewItems_container{
-  margin-left: 130px;
+  margin-left: 150px;
 }
  
   #borrow_request_container{
   margin-left: 16vw;
+}
+.borrow_history_container{
+  margin-left: 200px;
 }
 
 
@@ -293,5 +296,8 @@ body {
   }
   #img404{
     margin-top: 200px;
+  }
+  .borrow_history_container{
+    margin-left: 3%;
   }
 }

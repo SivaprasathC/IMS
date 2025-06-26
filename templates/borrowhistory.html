@@ -1,65 +1,91 @@
-{% extends "base.html" %} {% block content %}
-<h1 class="text-center my-3">Borrow History</h1>
-<div class="container mt-4">
-  {% if not borrow_request %}
-  <div class="alert alert-danger text-center" role="alert">
-    No Borrow Requests Found!
-  </div>
-  {% endif %}
-  <div class="row justify-content-center">
-    {% for request in borrow_request %}
-    <div class="col-lg-3 col-md-3 mb-4">
-      <div class="card h-80">
-        <div class="card-header bg-dark text-white">
-          <h5 class="card-title mb-0">Item: {{ request.borrow_itemname }}</h5>
-        </div>
-        <div class="card-body">
-          <p><strong>Serial Number:</strong> {{ request.borrow_serialno }}</p>
-          <p><strong>Quantity:</strong> {{ request.borrowqty }}</p>
-          <p><strong>Domain:</strong> {{ request.borrow_itemdomain }}</p>
-          <p><strong>Return Date:</strong> {{ request.borrow_returndate }}</p>
-          <p>
-            <strong>Request Date:</strong> {{ request.borrow_made_date_time }}
-          </p>
-          <hr>
-          <p><strong>Approvals:</strong></p>
-          {% if request.is_pm_approved %}
-          <span class="badge bg-success">PM</span>
-          {%else%}
-          <span class="badge bg-warning">PM</span>
-          {% endif %} {% if request.is_Lead_approved %}
-          <span class="badge bg-success">Lead</span>
-          {%else%}
-          <span class="badge bg-warning">Lead</span>
-          {% endif %} {% if request.is_dh_approved %}
-          <span class="badge bg-success">DH</span>
-          {%else%}
-          <span class="badge bg-warning">DH</span>
-          {% endif %} {% if request.is_drh_approved %}
-          <span class="badge bg-success">DRH</span>
-          {%else%}
-          <span class="badge bg-warning">DRH</span>
-          {% endif %}
-
-          <p class="mt-3"><strong>Final Approval:</strong></p>
-          <span
-            class="badge {% if request.borrow_status == 'Pending' %} bg-warning {% elif request.borrow_status == 'Rejected' %} bg-danger {% elif request.borrow_status == 'Approved' %} bg-success {% endif %}"
-          >
-            {{ request.borrow_status }}
-          </span>
-        </div>
-        {% if request.borrow_status == 'Approved'%}
-        <div class="card-footer text-center {%if request.is_returned%} bg-succsess {% else%}bg-danger {%endif%}">
-          {% if request.borrow_status == "Returned" %}
-          <span class="text-white h6">Returned</span>
-          {% else %}
-          <span class="text-white h6">Not Returned</span>
-          {% endif %}
-        </div>
-        {%endif%}
-      </div>
+{% extends "base.html" %}
+{% block content %}
+<div class="borrow_history_container">
+  <h1 class="text-center my-3">Borrow History</h1>
+  <div class="container mt-4">
+    {% if not pending_requests and not approved_requests and notrejected_requests %}
+    <div class="alert alert-danger text-center" role="alert">
+      No Borrow Requests Found!
     </div>
-    {% endfor %}
+    {% endif %}
+
+    {% if pending_requests %}
+    <h2 class="text-center my-4">Pending Requests</h2>
+    <hr data-content="Borrow History" class="hr-text">
+    <div class="row justify-content-center">
+      {% for request in pending_requests %}
+      <div class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch">
+        <div class="card w-100">
+          <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">Item: {{ request.borrow_itemname }}</h5>
+          </div>
+          <div class="card-body text-start">
+            <p><strong>Serial Number: </strong> {{ request.borrow_serialno }}</p>
+            <p><strong>Requested Quantity: </strong> {{ request.borrowqty }}</p>
+            <p><strong>Domain: </strong> {{ request.borrow_itemdomain }}</p>
+            <p><strong>Return Date: </strong> {{ request.borrow_returndate }}</p>
+            <p>
+              <strong>Request Date: </strong> {{ request.borrow_made_date_time }}
+            </p>
+            <p><strong>Status: </strong><span class="badge bg-warning">Pending</span></p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if approved_requests %}
+    <h2 class="text-center my-4">Approved Requests</h2>
+    <div class="row justify-content-center">
+      {% for request in approved_requests %}
+      <div class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch">
+        <div class="card w-100">
+          <div class="card-header bg-success text-white">
+            <h5 class="card-title mb-0">Item: {{ request.borrow_itemname }}</h5>
+          </div>
+          <div class="card-body text-start">
+            <p><strong>Serial Number: </strong> {{ request.borrow_serialno }}</p>
+            <p><strong>Requested Quantity: </strong> {{ request.borrowqty }}</p>
+            <p><strong>Domain: </strong> {{ request.borrow_itemdomain }}</p>
+            <p><strong>Return Date: </strong> {{ request.borrow_returndate }}</p>
+            <p>
+              <strong>Request Date: </strong> {{ request.borrow_made_date_time }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if rejected_requests %}
+    <h2 class="text-center my-4">Rejected Requests</h2>
+    <div class="row justify-content-center">
+      {% for request in rejected_requests %}
+      <div class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch">
+        <div class="card w-100">
+          <div class="card-header bg-danger text-white">
+            <h5 class="card-title mb-0">Item: {{ request.borrow_itemname }}</h5>
+          </div>
+          <div class="card-body text-start">
+            <p><strong>Serial Number: </strong> {{ request.borrow_serialno }}</p>
+            <p><strong>Requested Quantity: </strong> {{ request.borrowqty }}</p>
+            <p><strong>Domain: </strong> {{ request.borrow_itemdomain }}</p>
+            <p><strong>Return Date: </strong> {{ request.borrow_returndate }}</p>
+            <p>
+              <strong>Request Date: </strong> {{ request.borrow_made_date_time }}
+            </p>
+            <p class="font-italic">
+              <strong>Rejection Reason: </strong>{{ request.rejection_reason }}
+            </p>
+            <p><strong>Rejected By: </strong> {{ request.rejectedby }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
   </div>
 </div>
-{% endblock %}
+  {% endblock %}
