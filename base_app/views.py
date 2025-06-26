@@ -53,6 +53,8 @@ def viewitems(request):
     search_query = request.GET.get('search', '')
     filter_domain = request.GET.get('domain', '')
     items = Item.objects.all()
+    if (request.user.domain):
+          items = items.filter(itemdomain=request.user.domain)
     if search_query:
         items = items.filter(
             Q(itemname__icontains=search_query) | Q(serialno__icontains=search_query)
