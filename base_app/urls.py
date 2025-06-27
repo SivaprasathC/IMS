@@ -16,4 +16,6 @@ path('me',views.me,name='me'),
 path('borrowhistory',views.borrow_history,name='borrow_history'),
 path('borrowaccept/<int:id>/',views.borrow_accept,name='borrow_accept'),
 path('borrowreject/<int:id>/',views.borrow_reject,name='borrow_reject'),
+path('addheads',views.add_head,name='add_head'),
+path('addpmlead',views.Add_PM_Lead,name='Add_PM_Lead'),
 ]

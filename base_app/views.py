@@ -7,13 +7,17 @@ from django.contrib import messages
 from django.utils.timezone import localtime, now
 from django.contrib.auth.models import User, auth
 from base_app.models import CustomUser
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
+@login_required
 def add_item(request):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
     if request.method == 'GET':
          return render(request,'additem.html')
 
@@ -49,6 +53,8 @@ def add_item(request):
         success_message_context ={'message': '<div class="alert alert-success" role="alert">Item Added Successfully!</div>'}
         return render(request, 'additem.html', success_message_context)
        
+
+@login_required
 def viewitems(request):
     search_query = request.GET.get('search', '')
     filter_domain = request.GET.get('domain', '')
@@ -66,7 +72,10 @@ def viewitems(request):
     }
     return render(request, 'viewitems.html', context)
 
+@login_required
 def delete_item(request, id):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
     item = Item.objects.get(id=id)
     item_name = item.itemname
     item.delete()
@@ -74,7 +83,11 @@ def delete_item(request, id):
     messages.success(request, message)
     return redirect('viewitems')
 
+@login_required
 def edit_item(request, id):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    
     item = Item.objects.get(id=id)
     if request.method == 'POST':
         item.serialno = request.POST.get('serialno')
@@ -97,12 +110,19 @@ def edit_item(request, id):
     else:
         return render(request, 'edititem.html', {'item': item})
 
-
+@login_required
 def borrow_item(request, id):
+    if request.user.role not in ["Student"]:
+        return render(request,'error404.html')
+    
     item = Item.objects.get(id=id)
     return render(request, 'borrowitem.html', {'item': item})
 
+@login_required
 def new_borrow_request(request):
+    if request.user.role not in ["Student"]:
+        return render(request,'error404.html')
+    
     if request.method == 'POST':
         borrower_userid = request.POST.get('borrower_userid')
         borrower_name = request.POST.get('borrower_name')
@@ -141,7 +161,10 @@ def new_borrow_request(request):
                 messages.success(request, 'Item is currently Out of Stock!')
                 return redirect('viewitems')
 
+@login_required
 def borrow_requests_list(request):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
     search_query = request.GET.get('search_roll', '')
     user_domain = request.user.domain 
     borrow_requests = BorrowRequest.objects.all()
@@ -155,6 +178,7 @@ def borrow_requests_list(request):
     else:
         borrow_requests = borrow_requests.exclude(Q(borrow_status="Approved") | Q(borrow_status="Rejected") | Q(borrow_status="Returned"))
     return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})
+
 
 def login(request):
     if request.method == 'POST' :
@@ -171,21 +195,33 @@ def login(request):
        return render(request,'login.html')
 
 
+@login_required
 def logout(request):
     auth.logout(request)
     return redirect('/')
 
+@login_required
 def me(request):
     return render(request,'profile.html')
 
+@login_required
 def borrow_history(request):
+    if request.user.role not in ["Student"]:
+        return render(request,'error404.html')
+    
+    if request.user.role not in ["Student"]:
+        return render(request,'error404.html')
     borrow_requests = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
     pending_requests = borrow_requests.filter(borrow_status="Pending")
     approved_requests = borrow_requests.filter(borrow_status="Approved")
     rejected_requests = borrow_requests.filter(borrow_status="Rejected")
     return render(request, 'borrowhistory.html', {'pending_requests': pending_requests,'approved_requests': approved_requests,'rejected_requests': rejected_requests})
 
+@login_required
 def borrow_accept(request,id):
+      if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+      
       borrow_request = BorrowRequest.objects.get(id=id)
       if(request.user.role == "Lead" or request.user.role == "Super User" ):
             borrow_request.is_Lead_approved = True
@@ -208,7 +244,12 @@ def borrow_accept(request,id):
       messages.success(request, 'Request Approved Successfully!')
       return redirect('borrow_requests_list')
 
+
+@login_required
 def borrow_reject(request,id):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    
     if request.method == 'POST':
             borrow_request = BorrowRequest.objects.get(id=id)
             rejection_reason = request.POST.get('rejection_reason')
@@ -226,5 +267,83 @@ def borrow_reject(request,id):
             return redirect('borrow_requests_list')
     
 
+@login_required
+def add_head(request):
+     if request.user.role not in ["Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+     if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        roll_number = request.POST.get('roll_number')
+        email = request.POST.get('email')
+        domain = request.POST.get('domain')
+        role = request.POST.get('role')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not email.endswith('@kct.ac.in'):
+            messages.error(request, 'Please Use Your College Mail!')
+            return redirect('add_head')
+
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists!')
+            return redirect('add_head')
+
+        new_user = CustomUser(
+            first_name=first_name,
+            roll_number=roll_number,
+            email=email,
+            domain=domain,
+            role=role,
+            username=username
+        )
+        new_user.set_password(password) 
+        new_user.save()
+        
+        context = ( "User created successfully!"+"<br>"+
+                   "Please share the below details to Head:<br>"+
+                   "<strong>Username: </strong>" + username + "<br>"
+                    "<strong>Password:</strong>" + password)
+        messages.success(request, context)
+        return redirect('add_head')
+     else:
+         return render(request,'addheads.html')
 
 
+@login_required
+def Add_PM_Lead(request):
+    if request.user.role not in ["Lead","Super User"]:
+        return render(request,'error404.html')
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        roll_number = request.POST.get('roll_number')
+        email = request.POST.get('email')
+        role = request.POST.get('role')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not email.endswith('@kct.ac.in'):
+            messages.error(request, 'Please Use Your College Mail!')
+            return redirect('Add_PM_Lead')
+
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists!')
+            return redirect('Add_PM_Lead')
+
+        new_user = CustomUser(
+            first_name=first_name,
+            roll_number=roll_number,
+            email=email,
+            role=role,
+            username=username
+        )
+        new_user.set_password(password) 
+        new_user.save()
+        
+        context = ( "User created successfully!"+"<br>"+
+                   "Please share the below details to the Product Manager or Lead:<br>"+
+                   "<strong>Username: </strong>" + username + "<br>"
+                    "<strong>Password:</strong>" + password)
+        messages.success(request, context)
+        return redirect('Add_PM_Lead')
+    else:
+           return render(request,'addPMLead.html')

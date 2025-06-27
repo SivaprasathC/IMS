@@ -77,6 +77,9 @@ body {
 .sidebar-header .sidebar-toggler:hover {
   background: #ffffff;
 }
+.sidebar-nav {
+  padding-bottom: 0;
+}
 
 .sidebar-nav .nav-list {
   list-style: none;
@@ -224,8 +227,11 @@ body {
 /* Side Nav CSS Ends */
 
 
-#add-item-form,#edit-item-form,#borrow-item-form {
+#add-item-form,#edit-item-form,#borrow-item-form{
   margin-left: 295px ; margin-top: 50px; width: 30rem;
+}
+#add-head-form,#add-pmlead-form{
+  margin-left: 295px ; margin-top: 20px; width: 30rem;
 }
 
 /* Add Item,edit,borrow CSS ends */
@@ -255,6 +261,7 @@ body {
 .borrow_history_container{
   margin-left: 200px;
 }
+
 
 
 /* View Item CSS ends */
@@ -287,6 +294,9 @@ body {
   }
   #add-item-form,#edit-item-form,#borrow-item-form{
     margin-left: 20px ; margin-top: 50px; width: 85%;
+  }
+  #add-head-form,#add-pmlead-form {
+    margin-left: 20px ; margin-top: 20px; width: 85%;
   }
   .ViewItems_container{
     margin-left: 0px;

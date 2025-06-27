@@ -10,7 +10,6 @@
                     <h4 class="card-title">{{ user.first_name }}</h4>
                     <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
                     <p class="card-text"><strong>Role:</strong> {{ user.role }}</p>
-                    
                     {% if user.domain %}
                     <p class="card-text"><strong>Domain:</strong> {{ user.domain }}</p>
                     {% endif %}
@@ -20,6 +19,8 @@
                     {% endif %}
                     
                     <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+                    <p class="card-text pt-3"><strong>Need to Sign Out?</strong></p>
+                    <a href="{% url 'logout' %}"><button class="btn btn-danger">Sign Out</button></a>
                 </div>
             </div>
         </div>

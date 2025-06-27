@@ -3,9 +3,6 @@
 {% block content %}
     <div class="content-wrapper d-flex justify-content-center align-items-center flex-wrap" style="height: 80vh">
         <div class="col-sm-12 col-md-6">
-            {% if user.is_authenticated %}
-            <p class="text-center h5 mb-5">Hi, {{user.first_name}} 👋</p>
-            {%endif%}
             <center><p style="color:Black;">Kumaraguru Institutions </p>
                 <H3 style="color:Black;">iQube Inventory Management</H3>
             </center>
@@ -13,15 +10,6 @@
             <center><strong><h3>We <span class="change_content"></span></h3></strong></center>
             <br><br>
             <div class="container" style="height: 100%; display: flex; justify-content: center">
-<!-- 
-                    <div class="row" align="center">
-                        <div class="col-sm-6">
-                            <a class="btn btn-primary" href="#"
-                               style="text-transform: none">
-                                <span class="fab fa-microsoft"></span>
-                                Sign in with Microsoft
-                            </a>
-                        </div> -->
                         <br><br>
                         {% if not user.is_authenticated %}
                         <div class="col-sm-6" align="center">
