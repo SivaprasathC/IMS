@@ -100,8 +100,8 @@ def edit_item(request, id):
             valid_extensions = ['.jpeg', '.jpg', '.png']
             file_extension = os.path.splitext(image.name)[1].lower()
             if file_extension not in valid_extensions:
-                error_message_context = {'message': '<div class="alert alert-danger" role="alert">Invalid file type of Image!</div>'}
-                return render(request, 'edititem.html', error_message_context)
+                messages.error(request,'Invalid file type of Image!')
+                return redirect('edit_item',id=id)
             item.itemimg = image
         
         item.save()
@@ -177,6 +177,7 @@ def borrow_requests_list(request):
         )
     else:
         borrow_requests = borrow_requests.exclude(Q(borrow_status="Approved") | Q(borrow_status="Rejected") | Q(borrow_status="Returned"))
+        print(borrow_requests)
     return render(request, 'borrow_requests_list.html', {'borrow_requests': borrow_requests})
 
 
@@ -287,7 +288,7 @@ def add_head(request):
             messages.error(request, 'Username already exists!')
             return redirect('add_head')
 
-        new_user = CustomUser(
+        new_head = CustomUser(
             first_name=first_name,
             roll_number=roll_number,
             email=email,
@@ -295,8 +296,8 @@ def add_head(request):
             role=role,
             username=username
         )
-        new_user.set_password(password) 
-        new_user.save()
+        new_head.set_password(password) 
+        new_head.save()
         
         context = ( "User created successfully!"+"<br>"+
                    "Please share the below details to Head:<br>"+
@@ -305,7 +306,10 @@ def add_head(request):
         messages.success(request, context)
         return redirect('add_head')
      else:
-         return render(request,'addheads.html')
+         Domains_Heads = CustomUser.objects.filter(role="Domain Head")
+         Domains_Reso_Heads = CustomUser.objects.filter(role="Domain Resource Head")
+         context = {'Domain_Heads':Domains_Heads,'Domain_Resource_Heads':Domains_Reso_Heads}
+         return render(request,'addheads.html',context)
 
 
 @login_required
@@ -328,15 +332,15 @@ def Add_PM_Lead(request):
             messages.error(request, 'Username already exists!')
             return redirect('Add_PM_Lead')
 
-        new_user = CustomUser(
+        new_lead = CustomUser(
             first_name=first_name,
             roll_number=roll_number,
             email=email,
             role=role,
             username=username
         )
-        new_user.set_password(password) 
-        new_user.save()
+        new_lead.set_password(password) 
+        new_lead.save()
         
         context = ( "User created successfully!"+"<br>"+
                    "Please share the below details to the Product Manager or Lead:<br>"+
@@ -345,4 +349,111 @@ def Add_PM_Lead(request):
         messages.success(request, context)
         return redirect('Add_PM_Lead')
     else:
-           return render(request,'addPMLead.html')
+         LeadIncludingRequestLead = CustomUser.objects.filter(role="Lead")
+         #will not show the same user who has been logged in
+         Leads = LeadIncludingRequestLead.exclude(id=request.user.id)
+         ProdManagers = CustomUser.objects.filter(role="Product Manager")
+         context = {'Leads':Leads,'ProdManagers':ProdManagers}
+         return render(request,'addPMLead.html',context)
+    
+@login_required
+def edit_head(request,id):
+    if request.user.role not in ["Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        roll_number = request.POST.get('roll_number')
+        email = request.POST.get('email')
+        domain = request.POST.get('domain')
+        role = request.POST.get('role')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not email.endswith('@kct.ac.in'):
+            messages.error(request, 'Please Use Your College Mail!')
+            return redirect('edit_head',id=id)
+        
+        #to avoid username already exists if unchanged in edit.
+        users_without_current_user=CustomUser.objects.exclude(id=id)
+        if users_without_current_user.filter(username=username).exists():
+            messages.error(request, 'Username already exists!')
+            return redirect('edit_head',id=id)
+        
+        head = CustomUser.objects.get(id=id)
+        head.first_name=first_name
+        head.roll_number=roll_number
+        head.email=email
+        head.domain=domain
+        head.role=role
+        head.username=username
+        if password:
+            head.set_password(password) 
+        head.save()
+        context ="User Edited successfully!"
+        messages.success(request, context)
+        return redirect('add_head')
+    else:
+       head = CustomUser.objects.get(id=id)
+       return render(request,'editheads.html',{'head':head})
+
+@login_required
+def terminate_head(request,id):
+    if request.user.role not in ["Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    head = CustomUser.objects.get(id=id)
+    headname = head.first_name
+    head.delete()
+    message = "<strong>"+headname + '</strong> has been terminated successfully!'
+    messages.success(request, message)
+    return redirect('add_head')
+     
+
+
+@login_required
+def edit_lead(request,id):
+    if request.user.role not in ["Lead","Super User"]:
+        return render(request,'error404.html')
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        roll_number = request.POST.get('roll_number')
+        email = request.POST.get('email')
+        role = request.POST.get('role')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not email.endswith('@kct.ac.in'):
+            messages.error(request, 'Please Use Your College Mail!')
+            return redirect('edit_lead',id=id)
+        
+        users_without_current_user=CustomUser.objects.exclude(id=id)
+        if users_without_current_user.filter(username=username).exists():
+            messages.error(request, 'Username already exists!')
+            return redirect('edit_lead',id=id)
+        
+        PMLead = CustomUser.objects.get(id=id)
+        PMLead.first_name=first_name
+        PMLead.roll_number=roll_number
+        PMLead.email=email
+        PMLead.role=role
+        PMLead.username=username
+        if password:
+            PMLead.set_password(password) 
+        PMLead.save()
+        context ="User Edited successfully!"
+        messages.success(request, context)
+        return redirect('Add_PM_Lead')
+    else:
+        PMLead = CustomUser.objects.get(id=id)
+        return render(request,'editPMLead.html',{'PMLead':PMLead})
+
+@login_required
+def terminate_lead(request,id):
+    if request.user.role not in ["Lead","Super User"]:
+        return render(request,'error404.html')
+    PMLead = CustomUser.objects.get(id=id)
+    PMLeadName = PMLead.first_name
+    PMLead.delete()
+    message = "<strong>"+PMLeadName + '</strong> has been terminated successfully!'
+    messages.success(request, message)
+    return redirect('Add_PM_Lead')
+     

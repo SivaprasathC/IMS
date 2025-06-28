@@ -35,6 +35,7 @@ class BorrowRequest(models.Model):
     borrow_made_date_time = models.CharField(max_length=50)
     is_returned = models.BooleanField(default=False)
     rejectedby = models.CharField(max_length=50,blank=True, null=True)
+    is_damaged = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.borrow_itemname)+'-'+str(self.borrower_roll)+'-'+str(self.borrow_status)

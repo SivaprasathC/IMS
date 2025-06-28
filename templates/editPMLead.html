@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mt-3">Edit Product Managers and Leads</h2>
+<form action="{% url 'edit_lead' PMLead.id %}" method="POST" class="mt-6" id="edit-pmlead-form">
+    {% csrf_token %}
+   
+
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i> 
+              <span>{{ message|safe }}</span>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+   {% endfor %}
+     </div>
+   {% endif %}
+
+    <div class="form-group mt-3">
+      <label for="name">Name</label>
+      <input type="text" name="first_name" class="form-control" placeholder="Enter Name" value="{{PMLead.first_name}}" required>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="roll">Roll Number</label>
+      <input type="text" name="roll_number" class="form-control" placeholder="Enter Roll Number" value="{{PMLead.roll_number}}" required>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="mail">Email (@kct.ac.in)</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter Email Address" value="{{PMLead.email}}"  required>
+      </div>
+    
+      <div class="form-group mt-3">
+        <label for="role">Select Role</label>
+        <select class="form-control" name="role" required>
+            <option value="Product Manager" {% if PMLead.role == "Product Manager" %}selected{% endif %}>Product Manager</option>
+            <option value="Lead" {% if PMLead.role == "Lead" %}selected{% endif %}>Lead</option>
+        </select>
+    </div>
+
+      <div class="form-group mt-3">
+        <label for="roll">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter Username" value="{{PMLead.username}}"  required>
+      </div>
+
+      <div class="form-group mt-3">
+        <label for="pass">Password</label>
+        <input type="text" name="password" class="form-control" placeholder="Enter New Password (Leave Empty if Unchanged)" >
+      </div>
+     <button class="btn btn-primary mt-3" type="submit">Edit Now</button>
+  </form>
+{% endblock %}

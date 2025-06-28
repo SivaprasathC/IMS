@@ -230,8 +230,12 @@ body {
 #add-item-form,#edit-item-form,#borrow-item-form{
   margin-left: 295px ; margin-top: 50px; width: 30rem;
 }
-#add-head-form,#add-pmlead-form{
-  margin-left: 295px ; margin-top: 20px; width: 30rem;
+#add-head-form,#add-pmlead-form,#edit-head-form,#edit-pmlead-form{
+  margin-left: auto ; margin-top: 20px; width: 30rem;margin-right: auto
+}
+#HeadsTable,#PmLeadsTable
+{
+  width:60%;margin-right:auto;margin-left:auto
 }
 
 /* Add Item,edit,borrow CSS ends */
@@ -295,7 +299,7 @@ body {
   #add-item-form,#edit-item-form,#borrow-item-form{
     margin-left: 20px ; margin-top: 50px; width: 85%;
   }
-  #add-head-form,#add-pmlead-form {
+  #add-head-form,#add-pmlead-form,#edit-head-form {
     margin-left: 20px ; margin-top: 20px; width: 85%;
   }
   .ViewItems_container{
@@ -310,4 +314,8 @@ body {
   .borrow_history_container{
     margin-left: 3%;
   }
+  #HeadsTable,#PmLeadsTable
+{
+  width:98%;margin-right:auto;margin-left:auto
+}
 }

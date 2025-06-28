@@ -4,7 +4,6 @@
 <form action="{% url 'add_head' %}" method="POST" class="mt-6" id="add-head-form">
     {% csrf_token %}
    
-
     {% if messages %}
       <div class="container mt-3">
         {% for message in messages %}
@@ -61,4 +60,60 @@
       </div>
      <button class="btn btn-primary mt-3" type="submit">Add Head</button>
   </form>
+
+
+  <div class="mt-2" id="HeadsTable">
+    {% if Domain_Heads %}
+    <h3 class="text-center">Domain Heads</h3>
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Name</th>
+          <th>Domain</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for head in Domain_Heads %}
+        <tr>
+          <td>{{ head.first_name }}</td>
+          <td>{{ head.domain }}</td>
+          <td class="text-center">
+            <a href="{% url 'edit_head' head.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'terminate_head' head.id %}" class="btn btn-danger btn-sm">Terminate</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    {% endif %}
+    {% if Domain_Resource_Heads %}
+    <h3 class="text-center mt-5">Domain Resource Heads</h3>
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Name</th>
+          <th>Domain</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for head in Domain_Resource_Heads %}
+        <tr>
+          <td>{{ head.first_name }}</td>
+          <td>{{ head.domain }}</td>
+          <td class="text-center">
+            <a href="{% url 'edit_head' head.id %}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'terminate_head' head.id %}" class="btn btn-danger btn-sm">Terminate</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    {%endif%}
+  </div>
 {% endblock %}

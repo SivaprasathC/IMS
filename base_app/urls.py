@@ -18,4 +18,8 @@ path('borrowaccept/<int:id>/',views.borrow_accept,name='borrow_accept'),
 path('borrowreject/<int:id>/',views.borrow_reject,name='borrow_reject'),
 path('addheads',views.add_head,name='add_head'),
 path('addpmlead',views.Add_PM_Lead,name='Add_PM_Lead'),
+path('edithead/<int:id>/',views.edit_head,name='edit_head'),
+path('terminatehead/<int:id>/',views.terminate_head,name='terminate_head'),
+path('editlead/<int:id>/',views.edit_lead,name='edit_lead'),
+path('terminatelead/<int:id>/',views.terminate_lead,name='terminate_lead'),
 ]

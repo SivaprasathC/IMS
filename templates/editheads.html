@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mt-3">Edit Domain Head and Resource Head</h2>
+<form action="{% url 'edit_head' head.id %}" method="POST" class="mt-6" id="edit-head-form">
+    {% csrf_token %}
+   
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %} alert-dismissible fade show" role="alert">
+              <i class="bi bi-check-circle-fill me-2"></i> 
+              <span>{{ message|safe }}</span>
+             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+   {% endfor %}
+     </div>
+   {% endif %}
+
+    <div class="form-group mt-3">
+      <label for="name">Name</label>
+      <input type="text" name="first_name" class="form-control" placeholder="Enter Name" value="{{head.first_name}}" required>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="roll">Roll Number</label>
+      <input type="text" name="roll_number" class="form-control" placeholder="Enter Roll Number" value="{{head.roll_number}}" required>
+    </div>
+
+    <div class="form-group mt-3">
+        <label for="mail">Email (@kct.ac.in)</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter Email Address" value="{{head.email}}" required>
+      </div>
+    
+      <div class="form-group mt-3">
+        <label for="domain">Select Domain</label>
+        <select class="form-control" name="domain" required>
+          <option value="Domain 1" {% if head.domain == "Domain 1" %}selected{% endif %}>Domain 1</option>
+          <option value="Domain 2" {% if head.domain == "Domain 2" %}selected{% endif %}>Domain 2</option>
+          <option value="Domain 3" {% if head.domain == "Domain 3" %}selected{% endif %}>Domain 3</option>
+          <option value="Domain 4" {% if head.domain == "Domain 4" %}selected{% endif %}>Domain 4</option>
+          <option value="Domain 5" {% if head.domain == "Domain 5" %}selected{% endif %}>Domain 5</option>
+        </select>
+      </div>
+      
+      <div class="form-group mt-3">
+        <label for="role">Select Role</label>
+        <select class="form-control" name="role" required>
+          <option value="Domain Head" {% if head.role == "Domain Head" %}selected{% endif %}>Domain Head</option>
+          <option value="Domain Resource Head" {% if head.role == "Domain Resource Head" %}selected{% endif %}>Domain Resource Head</option>
+        </select>
+      </div>
+      
+      <div class="form-group mt-3">
+        <label for="roll">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter Username" value="{{head.username}}" required>
+      </div>
+
+      <div class="form-group mt-3">
+        <label for="pass">Password</label>
+        <input type="text" name="password" class="form-control" placeholder="Enter New Password (Leave Empty if Unchanged)">
+      </div>
+     <button class="btn btn-primary mt-3" type="submit">Edit Head</button>
+  </form>
+{% endblock %}

@@ -51,4 +51,56 @@
       </div>
      <button class="btn btn-primary mt-3" type="submit">Add Now</button>
   </form>
+
+  
+  <div class="mt-2 col-3" id="PmLeadsTable">
+    {% if Leads %}
+    <h3 class="text-center">Leads</h3>
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for Lead in Leads %}
+        <tr>
+          <td>{{ Lead.first_name }}</td>
+          <td class="text-center">
+            <a href="{% url 'edit_lead' Lead.id%}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'terminate_lead' Lead.id%}" class="btn btn-danger btn-sm">Terminate</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    {% endif %}
+    {% if ProdManagers %}
+    <h3 class="text-center mt-5">Product Managers</h3>
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Name</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pm in ProdManagers %}
+        <tr>
+          <td>{{ pm.first_name }}</td>
+          <td class="text-center">
+            <a href="{% url 'edit_lead' pm.id%}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{% url 'terminate_lead' pm.id%}" class="btn btn-danger btn-sm">Terminate</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+    {%endif%}
+  </div>
 {% endblock %}
