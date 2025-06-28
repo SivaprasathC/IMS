@@ -209,13 +209,12 @@ def borrow_history(request):
     if request.user.role not in ["Student"]:
         return render(request,'error404.html')
     
-    if request.user.role not in ["Student"]:
-        return render(request,'error404.html')
     borrow_requests = BorrowRequest.objects.filter(borrower_roll=request.user.roll_number)
     pending_requests = borrow_requests.filter(borrow_status="Pending")
     approved_requests = borrow_requests.filter(borrow_status="Approved")
     rejected_requests = borrow_requests.filter(borrow_status="Rejected")
-    return render(request, 'borrowhistory.html', {'pending_requests': pending_requests,'approved_requests': approved_requests,'rejected_requests': rejected_requests})
+    has_requests = pending_requests.exists() or approved_requests.exists() or rejected_requests.exists()
+    return render(request, 'borrowhistory.html', {'pending_requests': pending_requests,'approved_requests': approved_requests,'rejected_requests': rejected_requests,'has_requests':has_requests})
 
 @login_required
 def borrow_accept(request,id):

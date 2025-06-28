@@ -13,6 +13,12 @@
   </form>
 </div>
 
+<div class="container mt-4">
+    {% if not borrow_requests %}
+    <div class="alert alert-danger text-center ms-lg-5" role="alert">No Borrow Requests Found!</div>
+    {%endif%}
+</div>
+
 {% if messages %}
 <div class="container mt-3">
     {% for message in messages %}
@@ -28,9 +34,6 @@
 
 <div class="container mt-2" id="borrow_request_container">
     <div class="row justify-content-center">
-        {% if not borrow_requests %}
-        <div class="alert alert-danger text-center" role="alert">No Borrow Requests Found!</div>
-        {% endif %}
         {% for request in borrow_requests %}
         <div class="col-lg-3 col-md-6 mb-4 d-flex align-items-stretch">
             <div class="card h-100 d-flex flex-column" style="width: 18rem">

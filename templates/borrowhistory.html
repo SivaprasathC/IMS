@@ -3,7 +3,7 @@
 <div class="borrow_history_container">
   <h1 class="text-center my-3">Borrow History</h1>
   <div class="container mt-4">
-    {% if not pending_requests and not approved_requests and notrejected_requests %}
+    {% if not has_requests %}
     <div class="alert alert-danger text-center" role="alert">
       No Borrow Requests Found!
     </div>
