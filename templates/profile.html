@@ -1,29 +1,52 @@
 {% extends "base.html" %}
 {% block content %}
-{%load static %}
+{% load static %}
+
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body text-center">
-                    <img src="{% static 'img/profile.png' %}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
-                    <h4 class="card-title">{{ user.first_name }}</h4>
-                    <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
-                    <p class="card-text"><strong>Role:</strong> {{ user.role }}</p>
-                    {% if user.domain %}
-                    <p class="card-text"><strong>Domain:</strong> {{ user.domain }}</p>
-                    {% endif %}
-                    
-                    {% if user.roll_number %}
-                    <p class="card-text"><strong>Roll Number:</strong> {{ user.roll_number }}</p>
-                    {% endif %}
-                    
-                    <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-                    <p class="card-text pt-3"><strong>Need to Sign Out?</strong></p>
-                    <a href="{% url 'logout' %}"><button class="btn btn-danger">Sign Out</button></a>
-                </div>
+        <div class="col-lg-6 col-md-6">
+            <div class="text-center mb-2">
+                <img src="{% static 'img/profile.png' %}" alt="Profile Photo" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
             </div>
+            <form>
+                <div class="form-group mb-3">
+                    <label>Name</label>
+                    <input type="text" class="form-control" value="{{ user.first_name }}" disabled>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Username</label>
+                    <input type="text" class="form-control" value="{{ user.username }}" disabled>
+                </div>
+                <div class="form-group mb-3">
+                    <label>Role</label>
+                    <input type="text" class="form-control" value="{{ user.role }}" disabled>
+                </div>
+                {% if user.domain %}
+                <div class="form-group mb-3">
+                    <label>Domain</label>
+                    <input type="text" class="form-control" value="{{ user.domain }}" disabled>
+                </div>
+                {% endif %}
+                {% if user.roll_number %}
+                <div class="form-group mb-3">
+                    <label>Roll Number</label>
+                    <input type="text" class="form-control" value="{{ user.roll_number }}" disabled>
+                </div>
+                {% endif %}
+                <div class="form-group mb-3">
+                    <label>Email</label>
+                    <input type="email" class="form-control" value="{{ user.email }}" disabled>
+                </div>
+                <div class="text-center pt-3">
+                    <p class="mb-2"><strong>Need to Sign Out?</strong></p>
+                    <a href="{% url 'logout' %}">
+                        <button type="button" class="btn btn-danger">Sign Out</button>
+                    </a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 {% endblock %}
+
