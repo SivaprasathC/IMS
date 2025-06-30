@@ -95,7 +95,7 @@ body {
   overflow-y: auto;
   scrollbar-width: thin;
   padding-bottom: 20px;
-  height: calc(100vh - 227px);
+  height: calc(100vh - 170px);
   scrollbar-color: transparent transparent;
 }
 
@@ -264,7 +264,13 @@ body {
   margin-left: 200px;
 }
 
-
+#studenthistorytable{
+  width: 75%;
+}
+#blacklisttable{
+  width: 80%;
+  margin: auto;
+}
 @media (max-width: 768px) {
   .sidebar-menu-button {
     position: absolute;
@@ -310,5 +316,11 @@ body {
   #HeadsTable,#PmLeadsTable
 {
   width:98%;margin-right:auto;margin-left:auto
+}
+#studenthistorytable{
+  width: 100%;
+}
+#blacklisttable{
+  width: 100%;
 }
 }

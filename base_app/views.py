@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from base_app.models import Item,BorrowRequest
+from base_app.models import Item,BorrowRequest,Blacklist
 import os
 from django.db.models import Q
 from django.shortcuts import redirect
@@ -136,6 +136,14 @@ def new_borrow_request(request):
         borrow_returndate = request.POST.get('borrow_returndate')
         time = localtime(now())
         borrowqty = int(borrowqty)
+
+        if Blacklist.objects.filter(studentroll=borrower_roll).exists():
+            blacklisted = Blacklist.objects.get(studentroll=borrower_roll)
+            context= "You are Blacklisted by "+blacklisted.blocked_by+"."+"<strong> Reason: </strong>"+blacklisted.block_reason
+            messages.error(request, context)
+            return redirect('viewitems')
+
+
       #only will submit request if qty available at that time(to avoid multiple users placing request)
         item= Item.objects.get(serialno = borrow_serialno)
         if (item.itemqty >= borrowqty):
@@ -158,7 +166,7 @@ def new_borrow_request(request):
             messages.success(request, 'Borrow Request Submitted Successfully!')
             return redirect('viewitems')
         else:
-                messages.success(request, 'Item is currently Out of Stock!')
+                messages.error(request, 'Item is currently Out of Stock!')
                 return redirect('viewitems')
 
 @login_required
@@ -456,4 +464,49 @@ def terminate_lead(request,id):
     message = "<strong>"+PMLeadName + '</strong> has been terminated successfully!'
     messages.success(request, message)
     return redirect('Add_PM_Lead')
-     
+
+@login_required    
+def search_student(request):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    if request.method == 'POST':
+         roll_number = request.POST.get('roll_number')
+         borrow_history = BorrowRequest.objects.filter(borrower_roll=roll_number)
+         norequests= False
+         if not borrow_history:
+             norequests=True
+         return render(request, 'searchstudent.html', {'borrow_history': borrow_history,'norequests':norequests})
+    else:
+         return render(request, 'searchstudent.html')
+    
+
+@login_required 
+def black_list(request):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    if request.method=='POST':
+        studentroll = request.POST.get('studentroll')
+        block_reason = request.POST.get('block_reason')
+        blockedby = request.user.first_name + " - "+request.user.role
+
+        blacklist = Blacklist(
+            studentroll =  studentroll ,
+            block_reason = block_reason,
+            blocked_by =  blockedby
+        )
+        blacklist.save()
+        messages.success(request,'Student '+studentroll+' has been blacklisted successfully!')
+        return redirect('black_list')
+    else:
+        blacklisted_students = Blacklist.objects.all()
+        return render(request, 'blacklist.html', {'blacklisted_students': blacklisted_students})
+
+
+
+@login_required
+def un_blacklist(request,id):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    Blacklist.objects.filter(id=id).delete()
+    messages.success(request, "Student has been removed from the blacklist")
+    return redirect('black_list')

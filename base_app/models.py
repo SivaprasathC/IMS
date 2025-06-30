@@ -31,10 +31,10 @@ class BorrowRequest(models.Model):
     is_pm_approved = models.BooleanField(default=False)
     is_dh_approved = models.BooleanField(default=False)
     is_drh_approved = models.BooleanField(default=False)
-    rejection_reason = models.CharField(max_length=50,blank=True, null=True)
+    rejection_reason = models.CharField(max_length=250,blank=True, null=True)
     borrow_made_date_time = models.CharField(max_length=50)
     is_returned = models.BooleanField(default=False)
-    rejectedby = models.CharField(max_length=50,blank=True, null=True)
+    rejectedby = models.CharField(max_length=100,blank=True, null=True)
     is_damaged = models.BooleanField(default=False)
 
     def __str__(self):
@@ -52,3 +52,11 @@ class CustomUser(AbstractUser):
         ('Domain 5', 'Domain 5')])
     def __str__(self):
         return str(self.username)+'-'+str(self.first_name)+'-'+str(self.role)
+    
+class Blacklist(models.Model):
+    studentroll = models.CharField(max_length=50,blank=True, null=True)
+    block_reason=models.CharField(max_length=400,blank=True, null=True)
+    blocked_by = models.CharField(max_length=100,blank=True, null=True)
+
+    def __str__(self):
+        return str(self.studentroll)

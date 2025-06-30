@@ -13,3 +13,4 @@ class SearchItem(admin.ModelAdmin):
 admin.site.register(CustomUser,SearchCustomUser)
 admin.site.register(Item,SearchItem)
 admin.site.register(BorrowRequest,SearchBorrowRequest)
+admin.site.register(Blacklist)

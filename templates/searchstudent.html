@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h2 class="text-center mt-3">Search Student Borrow History</h2>
+  <form method="POST" action="{% url 'search_student' %}" class="row justify-content-center mt-4">
+    {% csrf_token %}
+    <div class="col-md-4 mb-3">
+      <input type="text" name="roll_number" class="form-control" placeholder="Enter Student Roll Number" required>
+    </div>
+    <div class="col-md-2 mb-3">
+      <button type="submit" class="btn btn-primary w-100">Search</button>
+    </div>
+  </form>
+
+  {% if borrow_history %}
+  <div class="mt-1 d-flex justify-content-center">
+    <div class="table-responsive" id="studenthistorytable">
+    <table id="borrowHistoryTable" class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>Item Name</th>
+          <th>Borrow Date</th>
+          <th>Return Date</th>
+          <th>Borrow Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in borrow_history %}
+        <tr>
+          <td>{{ record.borrow_itemname }}</td>
+          <td>{{ record.borrow_made_date_time}}</td>
+          <td>{{ record.borrow_returndate}}</td>
+          <td>{{ record.borrow_status }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+</div>
+{% endif %}
+{%if norequests%}
+<div class="d-flex justify-content-center mt-5">
+    <div class="alert alert-danger text-center" id="studenthistorytable" role="alert">
+      No Requests found for this Student!
+    </div>
+  </div>
+{%endif%}
+  
+</div>
+<script>
+    $(document).ready(function() {
+      $('#borrowHistoryTable').DataTable();
+    });
+  </script>
+
+{% endblock %}

@@ -22,4 +22,7 @@ path('edithead/<int:id>/',views.edit_head,name='edit_head'),
 path('terminatehead/<int:id>/',views.terminate_head,name='terminate_head'),
 path('editlead/<int:id>/',views.edit_lead,name='edit_lead'),
 path('terminatelead/<int:id>/',views.terminate_lead,name='terminate_lead'),
+path('searchstudent',views.search_student,name='search_student'),
+path('blacklist',views.black_list,name='black_list'),
+path('unblacklist/<int:id>/',views.un_blacklist,name='un_blacklist'),
 ]

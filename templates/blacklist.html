@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column align-items-center">
+<form action="{% url 'black_list' %}" method="POST" class="mt-6">
+    {% csrf_token %}
+    {{message|safe}}
+    <h2 class="mt-4">Add Student to Blacklist</h2>
+    {% if messages %}
+   <div class="container mt-3">
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i> 
+        <span>{{ message }}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+   {% endfor %}
+  </div>
+{% endif %}
+    <div class="form-group mt-3">
+      <label for="serialno">Roll Number</label>
+      <input type="text" name="studentroll" class="form-control"  placeholder="Roll Number in Capital letters" required>
+    </div>
+    <div class="form-group mt-3">
+      <label for="itemname">Blacklist Reason</label>
+      <textarea class="form-control" name="block_reason" rows="4" placeholder="Enter the reason for blacklist" required></textarea>
+    </div>
+     <button class="btn btn-primary mt-2" type="submit">Blacklist</button>
+  </form>
+
+  {% if blacklisted_students %}
+<div class="container mt-5">
+    <h3 class="text-center">Blacklisted Students</h3>
+    <div class="table-responsive" id="blacklisttable">
+        <table class="table table-bordered table-striped" id="BlackListTable">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Roll Number</th>
+                    <th>Reason</th>
+                    <th>Blocked By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for student in blacklisted_students %}
+                <tr>
+                    <td>{{ student.studentroll }}</td>
+                    <td style="overflow-wrap: break-word;">{{ student.block_reason }}</td>
+                    <td>{{ student.blocked_by }}</td>
+                    <td class="text-center">
+                            <a href="{% url 'un_blacklist' student.id %}"><button class="btn btn-danger btn-sm">Unblacklist</button></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function() {
+      $('#BlackListTable').DataTable();
+    });
+  </script>
+
+{% endif %}
+{% endblock %}
