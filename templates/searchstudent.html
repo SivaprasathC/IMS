@@ -38,6 +38,15 @@
 </div>
 </div>
 {% endif %}
+
+{% if not borrow_history and not norequests %}
+<div class="d-flex justify-content-center align-items-center">
+  <div class="alert alert-primary text-center w-75 mt-5" role="alert">
+    Enter the Roll Number of the student in the above field to get all borrow requests of that student
+  </div>
+</div>
+{% endif %}
+
 {%if norequests%}
 <div class="d-flex justify-content-center mt-5">
     <div class="alert alert-danger text-center" id="studenthistorytable" role="alert">
