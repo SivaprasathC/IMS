@@ -48,6 +48,19 @@
                     <p><strong>Domain:</strong> {{ request.borrow_itemdomain }}</p>
                     <p><strong>Return Date:</strong> {{ request.borrow_returndate }}</p>
                     <p>Request Date and Time: {{ request.borrow_made_date_time }}</p>
+                    {% if user.role == "Domain Head" or user.role == "Domain Resource Head"%}
+                    {%if not request.is_dh_approved%}
+                    <p><strong>Domain Head: </strong><span class="badge bg-warning">Pending</span></p>
+                    {%else%}
+                    <p><strong>Domain Head: </strong><span class="badge bg-success">Approved</span></p>
+                    {%endif%}
+                    {%if not request.is_drh_approved%}
+                    <p><strong>Resource Head: </strong><span class="badge bg-warning">Pending</span></p>
+                    {%else%}
+                    <p><strong>Resource Head: </strong><span class="badge bg-success">Approved</span></p>
+                    {%endif%}
+
+                    {% endif%}
                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{request.id}}">Reason</button>
                 </div>
                 <div class="card-footer mt-auto d-flex justify-content-between">
