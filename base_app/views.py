@@ -139,7 +139,7 @@ def new_borrow_request(request):
 
         if Blacklist.objects.filter(studentroll=borrower_roll).exists():
             blacklisted = Blacklist.objects.get(studentroll=borrower_roll)
-            context= "You are Blacklisted by "+blacklisted.blocked_by+"."+"<strong> Reason: </strong>"+blacklisted.block_reason
+            context= "You are Blacklisted by "+blacklisted.blocked_by+"."+"<br>"+"<strong> Reason: </strong>"+blacklisted.block_reason
             messages.error(request, context)
             return redirect('viewitems')
 
