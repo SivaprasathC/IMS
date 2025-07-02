@@ -25,4 +25,5 @@ path('terminatelead/<int:id>/',views.terminate_lead,name='terminate_lead'),
 path('searchstudent',views.search_student,name='search_student'),
 path('blacklist',views.black_list,name='black_list'),
 path('unblacklist/<int:id>/',views.un_blacklist,name='un_blacklist'),
+path('markreturn',views.mark_return,name='mark_return'),
 ]

@@ -510,3 +510,10 @@ def un_blacklist(request,id):
     Blacklist.objects.filter(id=id).delete()
     messages.success(request, "Student has been removed from the blacklist")
     return redirect('black_list')
+
+@login_required
+def mark_return(request):
+    if request.user.role not in ["Domain Head","Domain Resource Head","Lead","Product Manager","Super User"]:
+        return render(request,'error404.html')
+    
+    return render(request,'markreturn.html')

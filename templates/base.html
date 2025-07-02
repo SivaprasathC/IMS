@@ -44,6 +44,7 @@
       {% if user.is_authenticated and user.role == 'Lead' or user.role == 'Super User'%}
          <nav class="sidebar-nav">
     <ul class="nav-list primary-nav">
+      <div class="UserStatus">
       <li class="nav-item">
         <a href="#" class="nav-link" style="background: none; color: #fff; pointer-events: none;">
           <span class="nav-label">Hi {{user.first_name}}!</span>
@@ -54,6 +55,7 @@
           <span class="nav-label">Role: {{user.role}}</span>
         </a>
       </li>
+    </div>
       <li class="nav-item">
         <a href="{% url 'viewitems' %}" class="nav-link">
           <span class="material-symbols-rounded">table</span>
@@ -79,7 +81,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{% url 'mark_return' %}" class="nav-link">
           <span class="material-symbols-rounded">check</span>
           <span class="nav-label">Mark as Returned</span>
         </a>
